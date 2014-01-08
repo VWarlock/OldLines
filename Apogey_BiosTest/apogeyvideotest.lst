@@ -1,0 +1,203 @@
+0001   0000               .include "stdlib8080.inc"
+0001+  0000               .org 0h
+0002+  0000             entry:
+0003+  0000 00 04 00 00   .db 0, 4, 0, 0
+0004+  0004 C3 2D 00      jmp main
+0005+  0007             
+0002   0007             printValue:
+0003   0007 22 24 01      shld printValue_2
+0004   000A               ; 5 puts(text);
+0005   000A 2A 22 01      lhld printValue_1
+0006   000D CD 18 F8      call 63512
+0007   0010               ; 6 puthex(v>>8);Сдвиг на 8 вправо
+0008   0010 2A 24 01      lhld printValue_2
+0009   0013 6C            mov l, h
+0010   0014 26 00         mvi h, 0
+0011   0016 7D            mov a, l
+0012   0017 CD 15 F8      call 63509
+0013   001A               ; 7 puthex(v&0xFF);16 битная арифметическая операция с константой
+0014   001A 2A 24 01      lhld printValue_2
+0015   001D 26 00         mvi h, 0
+0016   001F 7D            mov a, l
+0017   0020 CD 15 F8      call 63509
+0018   0023               ; 8 putch(13);
+0019   0023 3E 0D         mvi a, 13
+0020   0025 CD EE 00      call putch
+0021   0028               ; 9 putch(10);
+0022   0028 3E 0A         mvi a, 10
+0023   002A C3 EE 00      jmp putch
+0024   002D             main:
+0025   002D CD F3 00      call clrscr
+0026   0030               ; 17 printValue("FREE MEMORY: ", getMemTop());
+0027   0030 21 42 01      lxi h, string0
+0028   0033 22 22 01      shld printValue_1
+0029   0036 CD 30 F8      call 63536
+0030   0039 CD 07 00      call printValue
+0031   003C               ; 18 setMemTop(0x8000);
+0032   003C 21 00 80      lxi h, 32768
+0033   003F CD 33 F8      call 63539
+0034   0042               ; 19 printValue("FREE MEMORY: ", getMemTop());
+0035   0042 21 42 01      lxi h, string0
+0036   0045 22 22 01      shld printValue_1
+0037   0048 CD 30 F8      call 63536
+0038   004B CD 07 00      call printValue
+0039   004E               ; 21 printValue("BIOS CRC: ", crcTape((char*)0xF000, (char*)0xFFFF));
+0040   004E 21 2E 01      lxi h, string1
+0041   0051 22 22 01      shld printValue_1
+0042   0054 21 00 F0      lxi h, 61440
+0043   0057 22 28 01      shld crcTape_1
+0044   005A 21 FF FF      lxi h, 65535
+0045   005D CD F9 00      call crcTape
+0046   0060 CD 07 00      call printValue
+0047   0063               ; 23 for(c=10; c!=55; c++) {
+0048   0063 3E 0A         mvi a, 10
+0049   0065 32 26 01      sta main_c
+0050   0068             l0:
+0051   0068 3A 26 01      lda main_c
+0052   006B FE 37         cpi 55
+0053   006D CA 95 00      jz l1
+0054   0070               ; 24 gotoxy(c,5);
+0055   0070 32 2C 01      sta gotoxy_1
+0056   0073 3E 05         mvi a, 5
+0057   0075 CD 05 01      call gotoxy
+0058   0078               ; 25 putch('*');
+0059   0078 3E 2A         mvi a, 42
+0060   007A CD EE 00      call putch
+0061   007D               ; 26 gotoxy(c,20);
+0062   007D 3A 26 01      lda main_c
+0063   0080 32 2C 01      sta gotoxy_1
+0064   0083 3E 14         mvi a, 20
+0065   0085 CD 05 01      call gotoxy
+0066   0088               ; 27 putch('*');
+0067   0088 3E 2A         mvi a, 42
+0068   008A CD EE 00      call putch
+0069   008D             l2:
+0070   008D 21 26 01      lxi h, main_c
+0071   0090 7E            mov a, m
+0072   0091 34            inr m
+0073   0092 C3 68 00      jmp l0
+0074   0095             l1:
+0075   0095               ; 29 for(c=5; c!=21; c++) {
+0076   0095 3E 05         mvi a, 5
+0077   0097 32 26 01      sta main_c
+0078   009A             l3:
+0079   009A 3A 26 01      lda main_c
+0080   009D FE 15         cpi 21
+0081   009F CA CA 00      jz l4
+0082   00A2               ; 30 gotoxy(10,c);
+0083   00A2 3E 0A         mvi a, 10
+0084   00A4 32 2C 01      sta gotoxy_1
+0085   00A7 3A 26 01      lda main_c
+0086   00AA CD 05 01      call gotoxy
+0087   00AD               ; 31 putch('*');
+0088   00AD 3E 2A         mvi a, 42
+0089   00AF CD EE 00      call putch
+0090   00B2               ; 32 gotoxy(55,c);
+0091   00B2 3E 37         mvi a, 55
+0092   00B4 32 2C 01      sta gotoxy_1
+0093   00B7 3A 26 01      lda main_c
+0094   00BA CD 05 01      call gotoxy
+0095   00BD               ; 33 putch('*');
+0096   00BD 3E 2A         mvi a, 42
+0097   00BF CD EE 00      call putch
+0098   00C2             l5:
+0099   00C2 21 26 01      lxi h, main_c
+0100   00C5 7E            mov a, m
+0101   00C6 34            inr m
+0102   00C7 C3 9A 00      jmp l3
+0103   00CA             l4:
+0104   00CA               ; 36 printValue("CURSOR: ", wherexy());
+0105   00CA 21 39 01      lxi h, string2
+0106   00CD 22 22 01      shld printValue_1
+0107   00D0 CD 1E F8      call 63518
+0108   00D3 CD 07 00      call printValue
+0109   00D6               ; 38 while(1) {
+0110   00D6             l6:
+0111   00D6               ; 39 c=getch();
+0112   00D6 CD 03 F8      call 63491
+0113   00D9 32 26 01      sta main_c
+0114   00DC               ; 40 switch(c) {
+0115   00DC FE 52         cpi 82
+0116   00DE C2 E4 00      jnz l10
+0117   00E1             l9:
+0118   00E1               ; 41 reboot();
+0119   00E1 CD 00 F8      call 63488
+0120   00E4             l10:
+0121   00E4               ; 42 putch(c);
+0122   00E4 3A 26 01      lda main_c
+0123   00E7 CD EE 00      call putch
+0124   00EA             l8:
+0125   00EA C3 D6 00      jmp l6
+0126   00ED             l7:
+0127   00ED C9            ret
+0128   00EE               ; --- putch -----------------------------------------------------------------
+0129   00EE             putch:
+0130   00EE 4F              mov c, a
+0131   00EF CD 09 F8        call 0F809h
+0132   00F2               
+0133   00F2 C9            ret
+0134   00F3               ; --- clrscr -----------------------------------------------------------------
+0135   00F3             clrscr:
+0136   00F3 0E 1F           mvi c, 1Fh
+0137   00F5 CD 09 F8        call 0F809h
+0138   00F8               
+0139   00F8 C9            ret
+0140   00F9               ; --- crcTape -----------------------------------------------------------------
+0141   00F9             crcTape:
+0142   00F9 C5              push b
+0143   00FA EB              xchg
+0144   00FB 2A 28 01        lhld crcTape_1
+0145   00FE CD 2A F8        call 0F82Ah
+0146   0101 60              mov h, b
+0147   0102 69              mov l, c
+0148   0103 C1              pop b
+0149   0104               
+0150   0104 C9            ret
+0151   0105               ; --- gotoxy -----------------------------------------------------------------
+0152   0105             gotoxy:
+0153   0105 32 2D 01      sta gotoxy_2
+0154   0108               ; 2 putch(0x1B);
+0155   0108 3E 1B         mvi a, 27
+0156   010A CD EE 00      call putch
+0157   010D               ; 3 putch('Y');
+0158   010D 3E 59         mvi a, 89
+0159   010F CD EE 00      call putch
+0160   0112               ; 4 putch(y+0x20);
+0161   0112 3A 2D 01      lda gotoxy_2
+0162   0115 C6 20         adi 32
+0163   0117 CD EE 00      call putch
+0164   011A               ; 5 putch(x+0x20);
+0165   011A 3A 2C 01      lda gotoxy_1
+0166   011D C6 20         adi 32
+0167   011F C3 EE 00      jmp putch
+0168   0122             printValue_1:
+0169   0122              .ds 2
+0170   0124             printValue_2:
+0171   0124              .ds 2
+0172   0126             main_c:
+0173   0126              .ds 1
+0174   0127             putch_1:
+0175   0127              .ds 1
+0176   0128             crcTape_1:
+0177   0128              .ds 2
+0178   012A             crcTape_2:
+0179   012A              .ds 2
+0180   012C             gotoxy_1:
+0181   012C              .ds 1
+0182   012D             gotoxy_2:
+0183   012D              .ds 1
+0184   012E             string1:
+0185   012E 42 49 4F 53  .db 66,73,79,83,32,67,82,67,58,32,0
+0185   0132 20 43 52 43 
+0185   0136 3A 20 00 
+0186   0139             string2:
+0187   0139 43 55 52 53  .db 67,85,82,83,79,82,58,32,0
+0187   013D 4F 52 3A 20 
+0187   0141 00 
+0188   0142             string0:
+0189   0142 46 52 45 45  .db 70,82,69,69,32,77,69,77,79,82,89,58,32,0
+0189   0146 20 4D 45 4D 
+0189   014A 4F 52 59 3A 
+0189   014E 20 00 
+0190   0150               .end
+tasm: Number of errors = 0

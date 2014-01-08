@@ -1,0 +1,1055 @@
+0001   0000               .include "stdlib8080.inc"
+0001+  0000               .org 0h
+0002+  0000             entry:
+0003+  0000 00 04 00 00   .db 0, 4, 0, 0
+0004+  0004 C3 84 00      jmp main
+0005+  0007             
+0002   0007             test:
+0003   0007 32 6F 05      sta test_1
+0004   000A               ; 7 for(i=0; i<apogeyVideoHeight; i++) {
+0005   000A AF            xra a
+0006   000B 32 70 05      sta test_i
+0007   000E             l0:
+0008   000E 21 6F 05      lxi h, test_1
+0009   0011 3A 70 05      lda test_i
+0010   0014 BE            cmp m
+0011   0015 D2 42 00      jnc l1
+0012   0018               ; 8 print(i,i,"\x81HELLO WORLD");
+0013   0018 32 74 05      sta print_1
+0014   001B 3A 70 05      lda test_i
+0015   001E 32 75 05      sta print_2
+0016   0021 21 B5 05      lxi h, string0
+0017   0024 CD D8 00      call print
+0018   0027               ; 9 print(64-12-i,i,"\x84HELLO WORLD");Арифметика 3/4
+0019   0027 21 70 05      lxi h, test_i
+0020   002A 3E 34         mvi a, 52
+0021   002C 96            sub m
+0022   002D 32 74 05      sta print_1
+0023   0030 7E            mov a, m
+0024   0031 32 75 05      sta print_2
+0025   0034 21 C2 05      lxi h, string1
+0026   0037 CD D8 00      call print
+0027   003A             l2:
+0028   003A 21 70 05      lxi h, test_i
+0029   003D 7E            mov a, m
+0030   003E 34            inr m
+0031   003F C3 0E 00      jmp l0
+0032   0042             l1:
+0033   0042               ; 13 getch();
+0034   0042 C3 03 F8      jmp 63491
+0035   0045             test16:
+0036   0045 32 71 05      sta test16_1
+0037   0048               ; 18 for(i=0; i<apogeyVideoHeight; i++) {
+0038   0048 AF            xra a
+0039   0049 32 72 05      sta test16_i
+0040   004C             l3:
+0041   004C 21 71 05      lxi h, test16_1
+0042   004F 3A 72 05      lda test16_i
+0043   0052 BE            cmp m
+0044   0053 D2 81 00      jnc l4
+0045   0056               ; 19 for(j=0; j<16*5; j+=40) {      
+0046   0056 AF            xra a
+0047   0057 32 73 05      sta test16_j
+0048   005A             l6:
+0049   005A FE 50         cpi 80
+0050   005C D2 79 00      jnc l7
+0051   005F               ; 20 print(j,i,"\x80HELL\x81O WO\x84RLD \x85!!! \x88THIS\x89 IS \x8CTEST\x8D:):)");
+0052   005F 32 74 05      sta print_1
+0053   0062 3A 72 05      lda test16_i
+0054   0065 32 75 05      sta print_2
+0055   0068 21 8C 05      lxi h, string2
+0056   006B CD D8 00      call print
+0057   006E             l8:
+0058   006E 3A 73 05      lda test16_j
+0059   0071 C6 28         adi 40
+0060   0073 32 73 05      sta test16_j
+0061   0076 C3 5A 00      jmp l6
+0062   0079             l7:
+0063   0079             l5:
+0064   0079 21 72 05      lxi h, test16_i
+0065   007C 7E            mov a, m
+0066   007D 34            inr m
+0067   007E C3 4C 00      jmp l3
+0068   0081             l4:
+0069   0081               ; 23 getch();
+0070   0081 C3 03 F8      jmp 63491
+0071   0084             main:
+0072   0084             l9:
+0073   0084               ; 28 apogeyScreen0(); 
+0074   0084 CD 13 01      call apogeyScreen0
+0075   0087               ; 29 test(25);
+0076   0087 3E 19         mvi a, 25
+0077   0089 CD 07 00      call test
+0078   008C               ; 30 apogeyScreen0B(); 
+0079   008C CD 59 01      call apogeyScreen0b
+0080   008F               ; 31 test(25);
+0081   008F 3E 19         mvi a, 25
+0082   0091 CD 07 00      call test
+0083   0094               ; 32 apogeyScreen1();
+0084   0094 CD C0 01      call apogeyScreen1
+0085   0097               ; 33 test(25);    
+0086   0097 3E 19         mvi a, 25
+0087   0099 CD 07 00      call test
+0088   009C               ; 34 apogeyScreen1B();
+0089   009C CD 06 02      call apogeyScreen1b
+0090   009F               ; 35 test(25);
+0091   009F 3E 19         mvi a, 25
+0092   00A1 CD 07 00      call test
+0093   00A4               ; 36 apogeyScreen2A();
+0094   00A4 CD 6D 02      call apogeyScreen2a
+0095   00A7               ; 37 test(31);    
+0096   00A7 3E 1F         mvi a, 31
+0097   00A9 CD 07 00      call test
+0098   00AC               ; 38 apogeyScreen2B();
+0099   00AC CD EF 02      call apogeyScreen2b
+0100   00AF               ; 39 test(31);
+0101   00AF 3E 1F         mvi a, 31
+0102   00B1 CD 07 00      call test
+0103   00B4               ; 40 apogeyScreen2C();
+0104   00B4 CD 71 03      call apogeyScreen2c
+0105   00B7               ; 41 test16(31);
+0106   00B7 3E 1F         mvi a, 31
+0107   00B9 CD 45 00      call test16
+0108   00BC               ; 42 apogeyScreen3A();
+0109   00BC CD D7 03      call apogeyScreen3a
+0110   00BF               ; 43 test(51);    
+0111   00BF 3E 33         mvi a, 51
+0112   00C1 CD 07 00      call test
+0113   00C4               ; 44 apogeyScreen3B();
+0114   00C4 CD 59 04      call apogeyScreen3b
+0115   00C7               ; 45 test(51);
+0116   00C7 3E 33         mvi a, 51
+0117   00C9 CD 07 00      call test
+0118   00CC               ; 46 apogeyScreen3C();
+0119   00CC CD DB 04      call apogeyScreen3c
+0120   00CF               ; 47 test16(51);
+0121   00CF 3E 33         mvi a, 51
+0122   00D1 CD 45 00      call test16
+0123   00D4 C3 84 00      jmp l9
+0124   00D7             l10:
+0125   00D7 C9            ret
+0126   00D8               ; --- print -----------------------------------------------------------------
+0127   00D8             print:
+0128   00D8 22 76 05      shld print_3
+0129   00DB               ; 4 apogeyVideoMem + y * apogeyVideoBpl + x;<dest>
+0130   00DB 21 86 05      lxi h, apogeyVideoBpl
+0131   00DE 56            mov d, m
+0132   00DF 3A 75 05      lda print_2
+0133   00E2 CD 41 05      call op_mul
+0134   00E5               ; Сложение
+0135   00E5 EB            xchg
+0136   00E6 2A 84 05      lhld apogeyVideoMem
+0137   00E9 19            dad d
+0138   00EA               ; Сложение
+0139   00EA EB            xchg
+0140   00EB 2A 74 05      lhld print_1
+0141   00EE 26 00         mvi h, 0
+0142   00F0 19            dad d
+0143   00F1 22 78 05      shld print_dest
+0144   00F4               ; 5 for(;*text; ++text, ++dest)
+0145   00F4             l11:
+0146   00F4               ; convertToConfition
+0147   00F4 2A 76 05      lhld print_3
+0148   00F7 AF            xra a
+0149   00F8 B6            ora m
+0150   00F9 CA 12 01      jz l12
+0151   00FC               ; 6 *dest = *text;
+0152   00FC 7E            mov a, m
+0153   00FD 2A 78 05      lhld print_dest
+0154   0100 77            mov m, a
+0155   0101             l13:
+0156   0101 2A 76 05      lhld print_3
+0157   0104 23            inx h
+0158   0105 22 76 05      shld print_3
+0159   0108 2A 78 05      lhld print_dest
+0160   010B 23            inx h
+0161   010C 22 78 05      shld print_dest
+0162   010F C3 F4 00      jmp l11
+0163   0112             l12:
+0164   0112 C9            ret
+0165   0113               ; --- apogeyScreen0 -----------------------------------------------------------------
+0166   0113             apogeyScreen0:
+0167   0113 C5            push b
+0168   0114               ; 3 memset((uchar*)(MEM_ADDR), 0, (FULL_HEIGHT)*(BPL)); 
+0169   0114 21 D0 E1      lxi h, 57808
+0170   0117 22 87 05      shld memset_1
+0171   011A AF            xra a
+0172   011B 32 89 05      sta memset_2
+0173   011E 21 24 09      lxi h, 2340
+0174   0121 CD 55 05      call memset
+0175   0124               ; 4 if(FILL_EOL) { 5 v = (uchar*)(MEM_ADDR)-1; 9 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*(BPL) + 8; 
+0176   0124 21 C2 E2      lxi h, 58050
+0177   0127 22 84 05      shld apogeyVideoMem
+0178   012A               ; 10 apogeyVideoBpl = (BPL); 
+0179   012A 3E 4E         mvi a, 78
+0180   012C 32 86 05      sta apogeyVideoBpl
+0181   012F               ; 1 ((uchar*)0xEF00)
+0182   012F 21 01 EF      lxi h, 61185
+0183   0132 36 00         mvi m, 0
+0184   0134               ; 1 ((uchar*)0xEF00)
+0185   0134 2D            dcr l
+0186   0135 36 4D         mvi m, 77
+0187   0137               ; 1 ((uchar*)0xEF00)
+0188   0137 36 9D         mvi m, 157
+0189   0139               ; 1 ((uchar*)0xEF00)
+0190   0139 36 99         mvi m, 153
+0191   013B               ; 1 ((uchar*)0xEF00)
+0192   013B 36 D3         mvi m, 211
+0193   013D               ; 1 ((uchar*)0xF000)
+0194   013D 21 08 F0      lxi h, 61448
+0195   0140 36 80         mvi m, 128
+0196   0142               ; 1 ((uchar*)0xF000)
+0197   0142 2E 04         mvi l, 4
+0198   0144 36 D0         mvi m, 208
+0199   0146               ; 1 ((uchar*)0xF000)
+0200   0146 36 E1         mvi m, 225
+0201   0148               ; 1 ((uchar*)0xF000)
+0202   0148 2C            inr l
+0203   0149 36 23         mvi m, 35
+0204   014B               ; 1 ((uchar*)0xF000)
+0205   014B 36 49         mvi m, 73
+0206   014D               ; 1 ((uchar*)0xF000)
+0207   014D 2E 08         mvi l, 8
+0208   014F 36 A4         mvi m, 164
+0209   0151               ; 1 ((uchar*)0xEF00)
+0210   0151 21 01 EF      lxi h, 61185
+0211   0154 36 27         mvi m, 39
+0212   0156               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 13 asm { di } 
+0213   0156 F3           di 
+0214   0157 C1            pop b
+0215   0158 C9            ret
+0216   0159               ; --- apogeyScreen0b -----------------------------------------------------------------
+0217   0159             apogeyScreen0b:
+0218   0159 C5            push b
+0219   015A               ; 3 memset((uchar*)(MEM_ADDR), 0, (FULL_HEIGHT)*(BPL)); 
+0220   015A 21 D0 E1      lxi h, 57808
+0221   015D 22 87 05      shld memset_1
+0222   0160 AF            xra a
+0223   0161 32 89 05      sta memset_2
+0224   0164 21 24 09      lxi h, 2340
+0225   0167 CD 55 05      call memset
+0226   016A               ; 4 if(FILL_EOL) { 5 v = (uchar*)(MEM_ADDR)-1; 
+0227   016A 01 CF E1      lxi b, 57807
+0228   016D               ; 6 for(i = FULL_HEIGHT; i; --i) 
+0229   016D 3E 1E         mvi a, 30
+0230   016F 32 7B 05      sta apogeyScreen0b_i
+0231   0172             l25:
+0232   0172               ; convertToConfition
+0233   0172 3A 7B 05      lda apogeyScreen0b_i
+0234   0175 B7            ora a
+0235   0176 CA 8B 01      jz l26
+0236   0179               ; 7 v += apogeyVideoBpl; *v = 0xF1; } Сложение с BC
+0237   0179 2A 86 05      lhld apogeyVideoBpl
+0238   017C 26 00         mvi h, 0
+0239   017E 09            dad b
+0240   017F 44            mov b, h
+0241   0180 4D            mov c, l
+0242   0181               ; 7 *v = 0xF1; } 
+0243   0181 3E F1         mvi a, 241
+0244   0183 02            stax b
+0245   0184             l27:
+0246   0184 21 7B 05      lxi h, apogeyScreen0b_i
+0247   0187 35            dcr m
+0248   0188 C3 72 01      jmp l25
+0249   018B             l26:
+0250   018B               ; 9 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*(BPL) + 8; 
+0251   018B 21 C2 E2      lxi h, 58050
+0252   018E 22 84 05      shld apogeyVideoMem
+0253   0191               ; 10 apogeyVideoBpl = (BPL); 
+0254   0191 3E 4E         mvi a, 78
+0255   0193 32 86 05      sta apogeyVideoBpl
+0256   0196               ; 1 ((uchar*)0xEF00)
+0257   0196 21 01 EF      lxi h, 61185
+0258   0199 36 00         mvi m, 0
+0259   019B               ; 1 ((uchar*)0xEF00)
+0260   019B 2D            dcr l
+0261   019C 36 4D         mvi m, 77
+0262   019E               ; 1 ((uchar*)0xEF00)
+0263   019E 36 9D         mvi m, 157
+0264   01A0               ; 1 ((uchar*)0xEF00)
+0265   01A0 36 99         mvi m, 153
+0266   01A2               ; 1 ((uchar*)0xEF00)
+0267   01A2 36 93         mvi m, 147
+0268   01A4               ; 1 ((uchar*)0xF000)
+0269   01A4 21 08 F0      lxi h, 61448
+0270   01A7 36 80         mvi m, 128
+0271   01A9               ; 1 ((uchar*)0xF000)
+0272   01A9 2E 04         mvi l, 4
+0273   01AB 36 D0         mvi m, 208
+0274   01AD               ; 1 ((uchar*)0xF000)
+0275   01AD 36 E1         mvi m, 225
+0276   01AF               ; 1 ((uchar*)0xF000)
+0277   01AF 2C            inr l
+0278   01B0 36 23         mvi m, 35
+0279   01B2               ; 1 ((uchar*)0xF000)
+0280   01B2 36 49         mvi m, 73
+0281   01B4               ; 1 ((uchar*)0xF000)
+0282   01B4 2E 08         mvi l, 8
+0283   01B6 36 A4         mvi m, 164
+0284   01B8               ; 1 ((uchar*)0xEF00)
+0285   01B8 21 01 EF      lxi h, 61185
+0286   01BB 36 27         mvi m, 39
+0287   01BD               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 13 asm { di } 
+0288   01BD F3           di 
+0289   01BE C1            pop b
+0290   01BF C9            ret
+0291   01C0               ; --- apogeyScreen1 -----------------------------------------------------------------
+0292   01C0             apogeyScreen1:
+0293   01C0 C5            push b
+0294   01C1               ; 3 memset((uchar*)(MEM_ADDR), 0, (FULL_HEIGHT)*(BPL)); 
+0295   01C1 21 D0 E1      lxi h, 57808
+0296   01C4 22 87 05      shld memset_1
+0297   01C7 AF            xra a
+0298   01C8 32 89 05      sta memset_2
+0299   01CB 21 24 09      lxi h, 2340
+0300   01CE CD 55 05      call memset
+0301   01D1               ; 4 if(FILL_EOL) { 5 v = (uchar*)(MEM_ADDR)-1; 9 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*(BPL) + 8; 
+0302   01D1 21 C2 E2      lxi h, 58050
+0303   01D4 22 84 05      shld apogeyVideoMem
+0304   01D7               ; 10 apogeyVideoBpl = (BPL); 
+0305   01D7 3E 4E         mvi a, 78
+0306   01D9 32 86 05      sta apogeyVideoBpl
+0307   01DC               ; 1 ((uchar*)0xEF00)
+0308   01DC 21 01 EF      lxi h, 61185
+0309   01DF 36 00         mvi m, 0
+0310   01E1               ; 1 ((uchar*)0xEF00)
+0311   01E1 2D            dcr l
+0312   01E2 36 4D         mvi m, 77
+0313   01E4               ; 1 ((uchar*)0xEF00)
+0314   01E4 36 9D         mvi m, 157
+0315   01E6               ; 1 ((uchar*)0xEF00)
+0316   01E6 36 77         mvi m, 119
+0317   01E8               ; 1 ((uchar*)0xEF00)
+0318   01E8 36 53         mvi m, 83
+0319   01EA               ; 1 ((uchar*)0xF000)
+0320   01EA 21 08 F0      lxi h, 61448
+0321   01ED 36 80         mvi m, 128
+0322   01EF               ; 1 ((uchar*)0xF000)
+0323   01EF 2E 04         mvi l, 4
+0324   01F1 36 D0         mvi m, 208
+0325   01F3               ; 1 ((uchar*)0xF000)
+0326   01F3 36 E1         mvi m, 225
+0327   01F5               ; 1 ((uchar*)0xF000)
+0328   01F5 2C            inr l
+0329   01F6 36 23         mvi m, 35
+0330   01F8               ; 1 ((uchar*)0xF000)
+0331   01F8 36 49         mvi m, 73
+0332   01FA               ; 1 ((uchar*)0xF000)
+0333   01FA 2E 08         mvi l, 8
+0334   01FC 36 A4         mvi m, 164
+0335   01FE               ; 1 ((uchar*)0xEF00)
+0336   01FE 21 01 EF      lxi h, 61185
+0337   0201 36 27         mvi m, 39
+0338   0203               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 13 asm { di } 
+0339   0203 F3           di 
+0340   0204 C1            pop b
+0341   0205 C9            ret
+0342   0206               ; --- apogeyScreen1b -----------------------------------------------------------------
+0343   0206             apogeyScreen1b:
+0344   0206 C5            push b
+0345   0207               ; 3 memset((uchar*)(MEM_ADDR), 0, (FULL_HEIGHT)*(BPL)); 
+0346   0207 21 D0 E1      lxi h, 57808
+0347   020A 22 87 05      shld memset_1
+0348   020D AF            xra a
+0349   020E 32 89 05      sta memset_2
+0350   0211 21 24 09      lxi h, 2340
+0351   0214 CD 55 05      call memset
+0352   0217               ; 4 if(FILL_EOL) { 5 v = (uchar*)(MEM_ADDR)-1; 
+0353   0217 01 CF E1      lxi b, 57807
+0354   021A               ; 6 for(i = FULL_HEIGHT; i; --i) 
+0355   021A 3E 1E         mvi a, 30
+0356   021C 32 7D 05      sta apogeyScreen1b_i
+0357   021F             l45:
+0358   021F               ; convertToConfition
+0359   021F 3A 7D 05      lda apogeyScreen1b_i
+0360   0222 B7            ora a
+0361   0223 CA 38 02      jz l46
+0362   0226               ; 7 v += apogeyVideoBpl; *v = 0xF1; } Сложение с BC
+0363   0226 2A 86 05      lhld apogeyVideoBpl
+0364   0229 26 00         mvi h, 0
+0365   022B 09            dad b
+0366   022C 44            mov b, h
+0367   022D 4D            mov c, l
+0368   022E               ; 7 *v = 0xF1; } 
+0369   022E 3E F1         mvi a, 241
+0370   0230 02            stax b
+0371   0231             l47:
+0372   0231 21 7D 05      lxi h, apogeyScreen1b_i
+0373   0234 35            dcr m
+0374   0235 C3 1F 02      jmp l45
+0375   0238             l46:
+0376   0238               ; 9 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*(BPL) + 8; 
+0377   0238 21 C2 E2      lxi h, 58050
+0378   023B 22 84 05      shld apogeyVideoMem
+0379   023E               ; 10 apogeyVideoBpl = (BPL); 
+0380   023E 3E 4E         mvi a, 78
+0381   0240 32 86 05      sta apogeyVideoBpl
+0382   0243               ; 1 ((uchar*)0xEF00)
+0383   0243 21 01 EF      lxi h, 61185
+0384   0246 36 00         mvi m, 0
+0385   0248               ; 1 ((uchar*)0xEF00)
+0386   0248 2D            dcr l
+0387   0249 36 4D         mvi m, 77
+0388   024B               ; 1 ((uchar*)0xEF00)
+0389   024B 36 9D         mvi m, 157
+0390   024D               ; 1 ((uchar*)0xEF00)
+0391   024D 36 77         mvi m, 119
+0392   024F               ; 1 ((uchar*)0xEF00)
+0393   024F 36 13         mvi m, 19
+0394   0251               ; 1 ((uchar*)0xF000)
+0395   0251 21 08 F0      lxi h, 61448
+0396   0254 36 80         mvi m, 128
+0397   0256               ; 1 ((uchar*)0xF000)
+0398   0256 2E 04         mvi l, 4
+0399   0258 36 D0         mvi m, 208
+0400   025A               ; 1 ((uchar*)0xF000)
+0401   025A 36 E1         mvi m, 225
+0402   025C               ; 1 ((uchar*)0xF000)
+0403   025C 2C            inr l
+0404   025D 36 23         mvi m, 35
+0405   025F               ; 1 ((uchar*)0xF000)
+0406   025F 36 49         mvi m, 73
+0407   0261               ; 1 ((uchar*)0xF000)
+0408   0261 2E 08         mvi l, 8
+0409   0263 36 A4         mvi m, 164
+0410   0265               ; 1 ((uchar*)0xEF00)
+0411   0265 21 01 EF      lxi h, 61185
+0412   0268 36 27         mvi m, 39
+0413   026A               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 13 asm { di } 
+0414   026A F3           di 
+0415   026B C1            pop b
+0416   026C C9            ret
+0417   026D               ; --- apogeyScreen2a -----------------------------------------------------------------
+0418   026D             apogeyScreen2a:
+0419   026D C5            push b
+0420   026E               ; 3 memset((uchar*)MEM_ADDR, 0, (HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+2); 
+0421   026E 21 D0 E1      lxi h, 57808
+0422   0271 22 87 05      shld memset_1
+0423   0274 AF            xra a
+0424   0275 32 89 05      sta memset_2
+0425   0278 21 1D 09      lxi h, 2333
+0426   027B CD 55 05      call memset
+0427   027E               ; 4 for(v=(uchar*)(MEM_ADDR)-1, i=TOP_INVISIBLE; i; --i) 
+0428   027E 01 CF E1      lxi b, 57807
+0429   0281 3E 03         mvi a, 3
+0430   0283 32 7E 05      sta apogeyScreen2a_i
+0431   0286             l54:
+0432   0286               ; convertToConfition
+0433   0286 3A 7E 05      lda apogeyScreen2a_i
+0434   0289 B7            ora a
+0435   028A CA 99 02      jz l55
+0436   028D               ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
+0437   028D 03            inx b
+0438   028E 03            inx b
+0439   028F 3E F1         mvi a, 241
+0440   0291 02            stax b
+0441   0292             l56:
+0442   0292 21 7E 05      lxi h, apogeyScreen2a_i
+0443   0295 35            dcr m
+0444   0296 C3 86 02      jmp l54
+0445   0299             l55:
+0446   0299               ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 
+0447   0299 3E 1F         mvi a, 31
+0448   029B 32 7E 05      sta apogeyScreen2a_i
+0449   029E             l58:
+0450   029E               ; convertToConfition
+0451   029E 3A 7E 05      lda apogeyScreen2a_i
+0452   02A1 B7            ora a
+0453   02A2 CA B5 02      jz l59
+0454   02A5               ; 8 v += (BPL), *v = 0xF1; Сложение с BC
+0455   02A5 21 4B 00      lxi h, 75
+0456   02A8 09            dad b
+0457   02A9 44            mov b, h
+0458   02AA 4D            mov c, l
+0459   02AB 3E F1         mvi a, 241
+0460   02AD 02            stax b
+0461   02AE             l60:
+0462   02AE 21 7E 05      lxi h, apogeyScreen2a_i
+0463   02B1 35            dcr m
+0464   02B2 C3 9E 02      jmp l58
+0465   02B5             l59:
+0466   02B5               ; 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
+0467   02B5 21 EC EA      lxi h, 60140
+0468   02B8 36 FF         mvi m, 255
+0469   02BA               ; 10 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*2 + 8; 
+0470   02BA 21 DE E1      lxi h, 57822
+0471   02BD 22 84 05      shld apogeyVideoMem
+0472   02C0               ; 11 apogeyVideoBpl = (BPL); 
+0473   02C0 3E 4B         mvi a, 75
+0474   02C2 32 86 05      sta apogeyVideoBpl
+0475   02C5               ; 1 ((uchar*)0xEF00)
+0476   02C5 21 01 EF      lxi h, 61185
+0477   02C8 36 00         mvi m, 0
+0478   02CA               ; 1 ((uchar*)0xEF00)
+0479   02CA 2D            dcr l
+0480   02CB 36 4D         mvi m, 77
+0481   02CD               ; 1 ((uchar*)0xEF00)
+0482   02CD 36 A4         mvi m, 164
+0483   02CF               ; 1 ((uchar*)0xEF00)
+0484   02CF 36 77         mvi m, 119
+0485   02D1               ; 1 ((uchar*)0xEF00)
+0486   02D1 36 53         mvi m, 83
+0487   02D3               ; 1 ((uchar*)0xF000)
+0488   02D3 21 08 F0      lxi h, 61448
+0489   02D6 36 80         mvi m, 128
+0490   02D8               ; 1 ((uchar*)0xF000)
+0491   02D8 2E 04         mvi l, 4
+0492   02DA 36 D0         mvi m, 208
+0493   02DC               ; 1 ((uchar*)0xF000)
+0494   02DC 36 E1         mvi m, 225
+0495   02DE               ; 1 ((uchar*)0xF000)
+0496   02DE 2C            inr l
+0497   02DF 36 1C         mvi m, 28
+0498   02E1               ; 1 ((uchar*)0xF000)
+0499   02E1 36 49         mvi m, 73
+0500   02E3               ; 1 ((uchar*)0xF000)
+0501   02E3 2E 08         mvi l, 8
+0502   02E5 36 A4         mvi m, 164
+0503   02E7               ; 1 ((uchar*)0xEF00)
+0504   02E7 21 01 EF      lxi h, 61185
+0505   02EA 36 27         mvi m, 39
+0506   02EC               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 13 asm { di } 
+0507   02EC F3           di 
+0508   02ED C1            pop b
+0509   02EE C9            ret
+0510   02EF               ; --- apogeyScreen2b -----------------------------------------------------------------
+0511   02EF             apogeyScreen2b:
+0512   02EF C5            push b
+0513   02F0               ; 3 memset((uchar*)MEM_ADDR, 0, (HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+2); 
+0514   02F0 21 85 D7      lxi h, 55173
+0515   02F3 22 87 05      shld memset_1
+0516   02F6 AF            xra a
+0517   02F7 32 89 05      sta memset_2
+0518   02FA 21 7A 09      lxi h, 2426
+0519   02FD CD 55 05      call memset
+0520   0300               ; 4 for(v=(uchar*)(MEM_ADDR)-1, i=TOP_INVISIBLE; i; --i) 
+0521   0300 01 84 D7      lxi b, 55172
+0522   0303 3E 03         mvi a, 3
+0523   0305 32 7F 05      sta apogeyScreen2b_i
+0524   0308             l67:
+0525   0308               ; convertToConfition
+0526   0308 3A 7F 05      lda apogeyScreen2b_i
+0527   030B B7            ora a
+0528   030C CA 1B 03      jz l68
+0529   030F               ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
+0530   030F 03            inx b
+0531   0310 03            inx b
+0532   0311 3E F1         mvi a, 241
+0533   0313 02            stax b
+0534   0314             l69:
+0535   0314 21 7F 05      lxi h, apogeyScreen2b_i
+0536   0317 35            dcr m
+0537   0318 C3 08 03      jmp l67
+0538   031B             l68:
+0539   031B               ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 
+0540   031B 3E 1F         mvi a, 31
+0541   031D 32 7F 05      sta apogeyScreen2b_i
+0542   0320             l71:
+0543   0320               ; convertToConfition
+0544   0320 3A 7F 05      lda apogeyScreen2b_i
+0545   0323 B7            ora a
+0546   0324 CA 37 03      jz l72
+0547   0327               ; 8 v += (BPL), *v = 0xF1; Сложение с BC
+0548   0327 21 4E 00      lxi h, 78
+0549   032A 09            dad b
+0550   032B 44            mov b, h
+0551   032C 4D            mov c, l
+0552   032D 3E F1         mvi a, 241
+0553   032F 02            stax b
+0554   0330             l73:
+0555   0330 21 7F 05      lxi h, apogeyScreen2b_i
+0556   0333 35            dcr m
+0557   0334 C3 20 03      jmp l71
+0558   0337             l72:
+0559   0337               ; 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
+0560   0337 21 FE E0      lxi h, 57598
+0561   033A 36 FF         mvi m, 255
+0562   033C               ; 10 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*2 + 8; 
+0563   033C 21 93 D7      lxi h, 55187
+0564   033F 22 84 05      shld apogeyVideoMem
+0565   0342               ; 11 apogeyVideoBpl = (BPL); 
+0566   0342 3E 4E         mvi a, 78
+0567   0344 32 86 05      sta apogeyVideoBpl
+0568   0347               ; 1 ((uchar*)0xEF00)
+0569   0347 21 01 EF      lxi h, 61185
+0570   034A 36 00         mvi m, 0
+0571   034C               ; 1 ((uchar*)0xEF00)
+0572   034C 2D            dcr l
+0573   034D 36 4D         mvi m, 77
+0574   034F               ; 1 ((uchar*)0xEF00)
+0575   034F 36 A4         mvi m, 164
+0576   0351               ; 1 ((uchar*)0xEF00)
+0577   0351 36 77         mvi m, 119
+0578   0353               ; 1 ((uchar*)0xEF00)
+0579   0353 36 13         mvi m, 19
+0580   0355               ; 1 ((uchar*)0xF000)
+0581   0355 21 08 F0      lxi h, 61448
+0582   0358 36 80         mvi m, 128
+0583   035A               ; 1 ((uchar*)0xF000)
+0584   035A 2E 04         mvi l, 4
+0585   035C 36 85         mvi m, 133
+0586   035E               ; 1 ((uchar*)0xF000)
+0587   035E 36 D7         mvi m, 215
+0588   0360               ; 1 ((uchar*)0xF000)
+0589   0360 2C            inr l
+0590   0361 36 79         mvi m, 121
+0591   0363               ; 1 ((uchar*)0xF000)
+0592   0363 36 49         mvi m, 73
+0593   0365               ; 1 ((uchar*)0xF000)
+0594   0365 2E 08         mvi l, 8
+0595   0367 36 A4         mvi m, 164
+0596   0369               ; 1 ((uchar*)0xEF00)
+0597   0369 21 01 EF      lxi h, 61185
+0598   036C 36 27         mvi m, 39
+0599   036E               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 13 asm { di } 
+0600   036E F3           di 
+0601   036F C1            pop b
+0602   0370 C9            ret
+0603   0371               ; --- apogeyScreen2c -----------------------------------------------------------------
+0604   0371             apogeyScreen2c:
+0605   0371 C5            push b
+0606   0372               ; 3 memset((uchar*)MEM_ADDR, 0, (HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+2); 
+0607   0372 21 95 D5      lxi h, 54677
+0608   0375 22 87 05      shld memset_1
+0609   0378 AF            xra a
+0610   0379 32 89 05      sta memset_2
+0611   037C 21 6A 0B      lxi h, 2922
+0612   037F CD 55 05      call memset
+0613   0382               ; 4 for(v=(uchar*)(MEM_ADDR)-1, i=TOP_INVISIBLE; i; --i) 
+0614   0382 01 94 D5      lxi b, 54676
+0615   0385 3E 03         mvi a, 3
+0616   0387 32 80 05      sta apogeyScreen2c_i
+0617   038A             l80:
+0618   038A               ; convertToConfition
+0619   038A 3A 80 05      lda apogeyScreen2c_i
+0620   038D B7            ora a
+0621   038E CA 9D 03      jz l81
+0622   0391               ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
+0623   0391 03            inx b
+0624   0392 03            inx b
+0625   0393 3E F1         mvi a, 241
+0626   0395 02            stax b
+0627   0396             l82:
+0628   0396 21 80 05      lxi h, apogeyScreen2c_i
+0629   0399 35            dcr m
+0630   039A C3 8A 03      jmp l80
+0631   039D             l81:
+0632   039D               ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
+0633   039D 21 FE E0      lxi h, 57598
+0634   03A0 36 FF         mvi m, 255
+0635   03A2               ; 10 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*2 + 8; 
+0636   03A2 21 A3 D5      lxi h, 54691
+0637   03A5 22 84 05      shld apogeyVideoMem
+0638   03A8               ; 11 apogeyVideoBpl = (BPL); 
+0639   03A8 3E 5E         mvi a, 94
+0640   03AA 32 86 05      sta apogeyVideoBpl
+0641   03AD               ; 1 ((uchar*)0xEF00)
+0642   03AD 21 01 EF      lxi h, 61185
+0643   03B0 36 00         mvi m, 0
+0644   03B2               ; 1 ((uchar*)0xEF00)
+0645   03B2 2D            dcr l
+0646   03B3 36 4D         mvi m, 77
+0647   03B5               ; 1 ((uchar*)0xEF00)
+0648   03B5 36 A4         mvi m, 164
+0649   03B7               ; 1 ((uchar*)0xEF00)
+0650   03B7 36 77         mvi m, 119
+0651   03B9               ; 1 ((uchar*)0xEF00)
+0652   03B9 36 13         mvi m, 19
+0653   03BB               ; 1 ((uchar*)0xF000)
+0654   03BB 21 08 F0      lxi h, 61448
+0655   03BE 36 80         mvi m, 128
+0656   03C0               ; 1 ((uchar*)0xF000)
+0657   03C0 2E 04         mvi l, 4
+0658   03C2 36 95         mvi m, 149
+0659   03C4               ; 1 ((uchar*)0xF000)
+0660   03C4 36 D5         mvi m, 213
+0661   03C6               ; 1 ((uchar*)0xF000)
+0662   03C6 2C            inr l
+0663   03C7 36 69         mvi m, 105
+0664   03C9               ; 1 ((uchar*)0xF000)
+0665   03C9 36 4B         mvi m, 75
+0666   03CB               ; 1 ((uchar*)0xF000)
+0667   03CB 2E 08         mvi l, 8
+0668   03CD 36 A4         mvi m, 164
+0669   03CF               ; 1 ((uchar*)0xEF00)
+0670   03CF 21 01 EF      lxi h, 61185
+0671   03D2 36 27         mvi m, 39
+0672   03D4               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 13 asm { di } 
+0673   03D4 F3           di 
+0674   03D5 C1            pop b
+0675   03D6 C9            ret
+0676   03D7               ; --- apogeyScreen3a -----------------------------------------------------------------
+0677   03D7             apogeyScreen3a:
+0678   03D7 C5            push b
+0679   03D8               ; 3 memset((uchar*)MEM_ADDR, 0, (HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+2); 
+0680   03D8 21 FE D1      lxi h, 53758
+0681   03DB 22 87 05      shld memset_1
+0682   03DE AF            xra a
+0683   03DF 32 89 05      sta memset_2
+0684   03E2 21 01 0F      lxi h, 3841
+0685   03E5 CD 55 05      call memset
+0686   03E8               ; 4 for(v=(uchar*)(MEM_ADDR)-1, i=TOP_INVISIBLE; i; --i) 
+0687   03E8 01 FD D1      lxi b, 53757
+0688   03EB 3E 07         mvi a, 7
+0689   03ED 32 81 05      sta apogeyScreen3a_i
+0690   03F0             l93:
+0691   03F0               ; convertToConfition
+0692   03F0 3A 81 05      lda apogeyScreen3a_i
+0693   03F3 B7            ora a
+0694   03F4 CA 03 04      jz l94
+0695   03F7               ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
+0696   03F7 03            inx b
+0697   03F8 03            inx b
+0698   03F9 3E F1         mvi a, 241
+0699   03FB 02            stax b
+0700   03FC             l95:
+0701   03FC 21 81 05      lxi h, apogeyScreen3a_i
+0702   03FF 35            dcr m
+0703   0400 C3 F0 03      jmp l93
+0704   0403             l94:
+0705   0403               ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 
+0706   0403 3E 33         mvi a, 51
+0707   0405 32 81 05      sta apogeyScreen3a_i
+0708   0408             l97:
+0709   0408               ; convertToConfition
+0710   0408 3A 81 05      lda apogeyScreen3a_i
+0711   040B B7            ora a
+0712   040C CA 1F 04      jz l98
+0713   040F               ; 8 v += (BPL), *v = 0xF1; Сложение с BC
+0714   040F 21 4B 00      lxi h, 75
+0715   0412 09            dad b
+0716   0413 44            mov b, h
+0717   0414 4D            mov c, l
+0718   0415 3E F1         mvi a, 241
+0719   0417 02            stax b
+0720   0418             l99:
+0721   0418 21 81 05      lxi h, apogeyScreen3a_i
+0722   041B 35            dcr m
+0723   041C C3 08 04      jmp l97
+0724   041F             l98:
+0725   041F               ; 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
+0726   041F 21 FE E0      lxi h, 57598
+0727   0422 36 FF         mvi m, 255
+0728   0424               ; 10 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*2 + 8; 
+0729   0424 21 14 D2      lxi h, 53780
+0730   0427 22 84 05      shld apogeyVideoMem
+0731   042A               ; 11 apogeyVideoBpl = (BPL); 
+0732   042A 3E 4B         mvi a, 75
+0733   042C 32 86 05      sta apogeyVideoBpl
+0734   042F               ; 1 ((uchar*)0xEF00)
+0735   042F 21 01 EF      lxi h, 61185
+0736   0432 36 00         mvi m, 0
+0737   0434               ; 1 ((uchar*)0xEF00)
+0738   0434 2D            dcr l
+0739   0435 36 4D         mvi m, 77
+0740   0437               ; 1 ((uchar*)0xEF00)
+0741   0437 36 BF         mvi m, 191
+0742   0439               ; 1 ((uchar*)0xEF00)
+0743   0439 36 33         mvi m, 51
+0744   043B               ; 1 ((uchar*)0xEF00)
+0745   043B 36 53         mvi m, 83
+0746   043D               ; 1 ((uchar*)0xF000)
+0747   043D 21 08 F0      lxi h, 61448
+0748   0440 36 80         mvi m, 128
+0749   0442               ; 1 ((uchar*)0xF000)
+0750   0442 2E 04         mvi l, 4
+0751   0444 36 FE         mvi m, 254
+0752   0446               ; 1 ((uchar*)0xF000)
+0753   0446 36 D1         mvi m, 209
+0754   0448               ; 1 ((uchar*)0xF000)
+0755   0448 2C            inr l
+0756   0449 36 00         mvi m, 0
+0757   044B               ; 1 ((uchar*)0xF000)
+0758   044B 36 4F         mvi m, 79
+0759   044D               ; 1 ((uchar*)0xF000)
+0760   044D 2E 08         mvi l, 8
+0761   044F 36 A4         mvi m, 164
+0762   0451               ; 1 ((uchar*)0xEF00)
+0763   0451 21 01 EF      lxi h, 61185
+0764   0454 36 27         mvi m, 39
+0765   0456               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 
+0766   0456 FB           ei 
+0767   0457               ; 13 asm { di } 
+0768   0457 C1            pop b
+0769   0458 C9            ret
+0770   0459               ; --- apogeyScreen3b -----------------------------------------------------------------
+0771   0459             apogeyScreen3b:
+0772   0459 C5            push b
+0773   045A               ; 3 memset((uchar*)MEM_ADDR, 0, (HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+2); 
+0774   045A 21 65 D1      lxi h, 53605
+0775   045D 22 87 05      shld memset_1
+0776   0460 AF            xra a
+0777   0461 32 89 05      sta memset_2
+0778   0464 21 9A 0F      lxi h, 3994
+0779   0467 CD 55 05      call memset
+0780   046A               ; 4 for(v=(uchar*)(MEM_ADDR)-1, i=TOP_INVISIBLE; i; --i) 
+0781   046A 01 64 D1      lxi b, 53604
+0782   046D 3E 07         mvi a, 7
+0783   046F 32 82 05      sta apogeyScreen3b_i
+0784   0472             l106:
+0785   0472               ; convertToConfition
+0786   0472 3A 82 05      lda apogeyScreen3b_i
+0787   0475 B7            ora a
+0788   0476 CA 85 04      jz l107
+0789   0479               ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
+0790   0479 03            inx b
+0791   047A 03            inx b
+0792   047B 3E F1         mvi a, 241
+0793   047D 02            stax b
+0794   047E             l108:
+0795   047E 21 82 05      lxi h, apogeyScreen3b_i
+0796   0481 35            dcr m
+0797   0482 C3 72 04      jmp l106
+0798   0485             l107:
+0799   0485               ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 
+0800   0485 3E 33         mvi a, 51
+0801   0487 32 82 05      sta apogeyScreen3b_i
+0802   048A             l110:
+0803   048A               ; convertToConfition
+0804   048A 3A 82 05      lda apogeyScreen3b_i
+0805   048D B7            ora a
+0806   048E CA A1 04      jz l111
+0807   0491               ; 8 v += (BPL), *v = 0xF1; Сложение с BC
+0808   0491 21 4E 00      lxi h, 78
+0809   0494 09            dad b
+0810   0495 44            mov b, h
+0811   0496 4D            mov c, l
+0812   0497 3E F1         mvi a, 241
+0813   0499 02            stax b
+0814   049A             l112:
+0815   049A 21 82 05      lxi h, apogeyScreen3b_i
+0816   049D 35            dcr m
+0817   049E C3 8A 04      jmp l110
+0818   04A1             l111:
+0819   04A1               ; 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
+0820   04A1 21 FE E0      lxi h, 57598
+0821   04A4 36 FF         mvi m, 255
+0822   04A6               ; 10 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*2 + 8; 
+0823   04A6 21 7B D1      lxi h, 53627
+0824   04A9 22 84 05      shld apogeyVideoMem
+0825   04AC               ; 11 apogeyVideoBpl = (BPL); 
+0826   04AC 3E 4E         mvi a, 78
+0827   04AE 32 86 05      sta apogeyVideoBpl
+0828   04B1               ; 1 ((uchar*)0xEF00)
+0829   04B1 21 01 EF      lxi h, 61185
+0830   04B4 36 00         mvi m, 0
+0831   04B6               ; 1 ((uchar*)0xEF00)
+0832   04B6 2D            dcr l
+0833   04B7 36 4D         mvi m, 77
+0834   04B9               ; 1 ((uchar*)0xEF00)
+0835   04B9 36 BF         mvi m, 191
+0836   04BB               ; 1 ((uchar*)0xEF00)
+0837   04BB 36 33         mvi m, 51
+0838   04BD               ; 1 ((uchar*)0xEF00)
+0839   04BD 36 13         mvi m, 19
+0840   04BF               ; 1 ((uchar*)0xF000)
+0841   04BF 21 08 F0      lxi h, 61448
+0842   04C2 36 80         mvi m, 128
+0843   04C4               ; 1 ((uchar*)0xF000)
+0844   04C4 2E 04         mvi l, 4
+0845   04C6 36 65         mvi m, 101
+0846   04C8               ; 1 ((uchar*)0xF000)
+0847   04C8 36 D1         mvi m, 209
+0848   04CA               ; 1 ((uchar*)0xF000)
+0849   04CA 2C            inr l
+0850   04CB 36 99         mvi m, 153
+0851   04CD               ; 1 ((uchar*)0xF000)
+0852   04CD 36 4F         mvi m, 79
+0853   04CF               ; 1 ((uchar*)0xF000)
+0854   04CF 2E 08         mvi l, 8
+0855   04D1 36 A4         mvi m, 164
+0856   04D3               ; 1 ((uchar*)0xEF00)
+0857   04D3 21 01 EF      lxi h, 61185
+0858   04D6 36 27         mvi m, 39
+0859   04D8               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 
+0860   04D8 FB           ei 
+0861   04D9               ; 13 asm { di } 
+0862   04D9 C1            pop b
+0863   04DA C9            ret
+0864   04DB               ; --- apogeyScreen3c -----------------------------------------------------------------
+0865   04DB             apogeyScreen3c:
+0866   04DB C5            push b
+0867   04DC               ; 3 memset((uchar*)MEM_ADDR, 0, (HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+2); 
+0868   04DC 21 35 CE      lxi h, 52789
+0869   04DF 22 87 05      shld memset_1
+0870   04E2 AF            xra a
+0871   04E3 32 89 05      sta memset_2
+0872   04E6 21 CA 12      lxi h, 4810
+0873   04E9 CD 55 05      call memset
+0874   04EC               ; 4 for(v=(uchar*)(MEM_ADDR)-1, i=TOP_INVISIBLE; i; --i) 
+0875   04EC 01 34 CE      lxi b, 52788
+0876   04EF 3E 07         mvi a, 7
+0877   04F1 32 83 05      sta apogeyScreen3c_i
+0878   04F4             l119:
+0879   04F4               ; convertToConfition
+0880   04F4 3A 83 05      lda apogeyScreen3c_i
+0881   04F7 B7            ora a
+0882   04F8 CA 07 05      jz l120
+0883   04FB               ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
+0884   04FB 03            inx b
+0885   04FC 03            inx b
+0886   04FD 3E F1         mvi a, 241
+0887   04FF 02            stax b
+0888   0500             l121:
+0889   0500 21 83 05      lxi h, apogeyScreen3c_i
+0890   0503 35            dcr m
+0891   0504 C3 F4 04      jmp l119
+0892   0507             l120:
+0893   0507               ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
+0894   0507 21 FE E0      lxi h, 57598
+0895   050A 36 FF         mvi m, 255
+0896   050C               ; 10 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*2 + 8; 
+0897   050C 21 4B CE      lxi h, 52811
+0898   050F 22 84 05      shld apogeyVideoMem
+0899   0512               ; 11 apogeyVideoBpl = (BPL); 
+0900   0512 3E 5E         mvi a, 94
+0901   0514 32 86 05      sta apogeyVideoBpl
+0902   0517               ; 1 ((uchar*)0xEF00)
+0903   0517 21 01 EF      lxi h, 61185
+0904   051A 36 00         mvi m, 0
+0905   051C               ; 1 ((uchar*)0xEF00)
+0906   051C 2D            dcr l
+0907   051D 36 4D         mvi m, 77
+0908   051F               ; 1 ((uchar*)0xEF00)
+0909   051F 36 BF         mvi m, 191
+0910   0521               ; 1 ((uchar*)0xEF00)
+0911   0521 36 33         mvi m, 51
+0912   0523               ; 1 ((uchar*)0xEF00)
+0913   0523 36 13         mvi m, 19
+0914   0525               ; 1 ((uchar*)0xF000)
+0915   0525 21 08 F0      lxi h, 61448
+0916   0528 36 80         mvi m, 128
+0917   052A               ; 1 ((uchar*)0xF000)
+0918   052A 2E 04         mvi l, 4
+0919   052C 36 35         mvi m, 53
+0920   052E               ; 1 ((uchar*)0xF000)
+0921   052E 36 CE         mvi m, 206
+0922   0530               ; 1 ((uchar*)0xF000)
+0923   0530 2C            inr l
+0924   0531 36 C9         mvi m, 201
+0925   0533               ; 1 ((uchar*)0xF000)
+0926   0533 36 52         mvi m, 82
+0927   0535               ; 1 ((uchar*)0xF000)
+0928   0535 2E 08         mvi l, 8
+0929   0537 36 A4         mvi m, 164
+0930   0539               ; 1 ((uchar*)0xEF00)
+0931   0539 21 01 EF      lxi h, 61185
+0932   053C 36 27         mvi m, 39
+0933   053E               ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 
+0934   053E FB           ei 
+0935   053F               ; 13 asm { di } 
+0936   053F C1            pop b
+0937   0540 C9            ret
+0938   0541               ; --- op_mul -----------------------------------------------------------------
+0939   0541             op_mul:
+0940   0541 C5            push b
+0941   0542 21 00 00      lxi h, 0
+0942   0545 5A            mov e, d  ; de=d
+0943   0546 55            mov d, l  
+0944   0547 0E 08         mvi c, 8
+0945   0549             op_mul1:
+0946   0549 29            dad h
+0947   054A 87            add a
+0948   054B D2 4F 05      jnc op_mul2
+0949   054E 19              dad d
+0950   054F             op_mul2:
+0951   054F 0D            dcr c
+0952   0550 C2 49 05      jnz op_mul1
+0953   0553             pop_bc_ret:
+0954   0553 C1            pop b
+0955   0554             
+0956   0554 C9            ret
+0957   0555               ; --- memset -----------------------------------------------------------------
+0958   0555             memset:
+0959   0555 22 8A 05      shld memset_3
+0960   0558               ; 2 asm {
+0961   0558 C5              push b
+0962   0559 3A 89 05        lda memset_2
+0963   055C EB              xchg
+0964   055D 2A 87 05        lhld memset_1
+0965   0560 EB              xchg
+0966   0561 01 FF FF        lxi b, -1    
+0967   0564             memset_l1:
+0968   0564 09              dad b
+0969   0565 D2 6D 05        jnc memset_l2
+0970   0568 12              stax d
+0971   0569 13              inx d
+0972   056A C3 64 05        jmp memset_l1
+0973   056D             memset_l2:
+0974   056D C1              pop b
+0975   056E               
+0976   056E C9            ret
+0977   056F             test_1:
+0978   056F              .ds 1
+0979   0570             test_i:
+0980   0570              .ds 1
+0981   0571             test16_1:
+0982   0571              .ds 1
+0983   0572             test16_i:
+0984   0572              .ds 1
+0985   0573             test16_j:
+0986   0573              .ds 1
+0987   0574             print_1:
+0988   0574              .ds 1
+0989   0575             print_2:
+0990   0575              .ds 1
+0991   0576             print_3:
+0992   0576              .ds 2
+0993   0578             print_dest:
+0994   0578              .ds 2
+0995   057A             apogeyScreen0_i:
+0996   057A              .ds 1
+0997   057B             apogeyScreen0b_i:
+0998   057B              .ds 1
+0999   057C             apogeyScreen1_i:
+1000   057C              .ds 1
+1001   057D             apogeyScreen1b_i:
+1002   057D              .ds 1
+1003   057E             apogeyScreen2a_i:
+1004   057E              .ds 1
+1005   057F             apogeyScreen2b_i:
+1006   057F              .ds 1
+1007   0580             apogeyScreen2c_i:
+1008   0580              .ds 1
+1009   0581             apogeyScreen3a_i:
+1010   0581              .ds 1
+1011   0582             apogeyScreen3b_i:
+1012   0582              .ds 1
+1013   0583             apogeyScreen3c_i:
+1014   0583              .ds 1
+1015   0584             apogeyVideoMem:
+1016   0584 C2 E2        .dw 58050
+1017   0586             
+1018   0586             apogeyVideoBpl:
+1019   0586 4E           .db 78
+1020   0587             
+1021   0587             memset_1:
+1022   0587              .ds 2
+1023   0589             memset_2:
+1024   0589              .ds 1
+1025   058A             memset_3:
+1026   058A              .ds 2
+1027   058C             string2:
+1028   058C 80 48 45 4C  .db 128,72,69,76,76,129,79,32,87,79,132,82,76,68,32,133,33,33,33,32,136,84,72,73,83,137,32,73,83,32,140,84,69,83,84,141,58,41,58,41,0
+1028   0590 4C 81 4F 20 
+1028   0594 57 4F 84 52 
+1028   0598 4C 44 20 85 
+1028   059C 21 21 21 20 
+1028   05A0 88 54 48 49 
+1028   05A4 53 89 20 49 
+1028   05A8 53 20 8C 54 
+1028   05AC 45 53 54 8D 
+1028   05B0 3A 29 3A 29 
+1028   05B4 00 
+1029   05B5             string0:
+1030   05B5 81 48 45 4C  .db 129,72,69,76,76,79,32,87,79,82,76,68,0
+1030   05B9 4C 4F 20 57 
+1030   05BD 4F 52 4C 44 
+1030   05C1 00 
+1031   05C2             string1:
+1032   05C2 84 48 45 4C  .db 132,72,69,76,76,79,32,87,79,82,76,68,0
+1032   05C6 4C 4F 20 57 
+1032   05CA 4F 52 4C 44 
+1032   05CE 00 
+1033   05CF               .end
+tasm: Number of errors = 0
