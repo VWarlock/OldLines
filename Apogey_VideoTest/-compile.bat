@@ -1,4 +1,4 @@
-..\c8080\c8080.exe apogeyvideotest.c
+..\c8080\c8080.exe apogeyvideotest.c gprint.c
 if errorlevel 1 goto err
 ..\c8080\tasm -gb -b -85 apogeyvideotest.asm apogeyvideotest.rka >errors.txt
 if errorlevel 1 goto err

@@ -29,6 +29,8 @@ while(!list.AtEndOfStream) {
 list.Close();
 kill("list.tmp");
 
+while(image.length < 65536) image += encode[0];
+
 save("romdisk.bin", image);
 
 // И сразу в эмулятор

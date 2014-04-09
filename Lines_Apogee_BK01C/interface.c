@@ -11,7 +11,7 @@
 
 void drawChar(uchar* d, uchar c);
 
-#define APOGEY_VIDEO_MEM ((uchar*)0xCE4B)
+#define APOGEY_VIDEO_MEM ((uchar*)(0xE000-94*51-2+9))
 #define APOGEY_VIDEO_BPL 94
 #define COORDS(X,Y) (APOGEY_VIDEO_MEM+(X)+(Y)*APOGEY_VIDEO_BPL)
 
@@ -200,7 +200,7 @@ void demo() {
   uint x, s;
   uchar d;
 
-  APOGEY_SCREEN_END(((int)startScreen), 64, 0x33, (52*94+7*2+1)*2, 1, 1);
+   APOGEY_SCREEN_END(((int)startScreen), 64, 0x33, (52*94+7*2+1)*2, 1, 1);
 
   while(d = * p) {
     ++p;
@@ -289,10 +289,9 @@ void updateTopScore() {
 
 void initGameScreen() {
   register uchar y, x;  
-
   apogeyScreen3c();
-
   fillScreen(gameScreen);
+//  apogeyScreen3c2();
 
   for(y=0; y<9; y++)
     for(x=0; x<9; x++)

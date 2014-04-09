@@ -2522,7 +2522,7 @@ drawSprite:
   ; Сложение
   mvi h, 0
   mov l, a
-  lxi d, 52811
+  lxi d, 52557
   dad d
   lda drawSprite_2
   ; Умножение A на 4
@@ -2737,7 +2737,7 @@ l231:
 drawScore:
   shld drawScore_1
   ; 116 drawNumber(COORDS(67, 1), score);
-  lxi h, 52972
+  lxi h, 52718
   shld drawNumber_1
   lhld drawScore_1
   call drawNumber
@@ -2779,7 +2779,7 @@ l234:
   jc l236
   jz l236
   ; 124 superDraw(COORDS(63, 6), 0, 23, 7, rightSprite, 17, 17); n=1; }
-  lxi h, 53438
+  lxi h, 53184
   shld superDraw_1
   xra a
   sta superDraw_2
@@ -2798,7 +2798,7 @@ l234:
   jmp l237
 l236:
   ; 125 superDraw(COORDS(63, 6), 6-n, 23, n, gameScreen + 63 + 12*80, 17, 80); n=0; }  
-  lxi h, 53438
+  lxi h, 53184
   shld superDraw_1
   ; Арифметика 3/4
   lxi h, drawScore_n
@@ -2832,7 +2832,7 @@ l237:
   ora m
   jz l239
   ; 128 superDraw(COORDS(0, 6), 5, 16, 0, leftSprite, 18, 18);
-  lxi h, 53375
+  lxi h, 53121
   shld superDraw_1
   mvi a, 5
   sta superDraw_2
@@ -2848,7 +2848,7 @@ l237:
   jmp l240
 l239:
   ; 129 superDraw(COORDS(0, 6), 0, 21, 0, gameScreen + 0 + 6*80, 18, 80);
-  lxi h, 53375
+  lxi h, 53121
   shld superDraw_1
   xra a
   sta superDraw_2
@@ -2900,17 +2900,17 @@ redrawNewBall:
 redrawNewBalls:
   sta redrawNewBalls_3
   ; 142 redrawNewBall(COORDS(36, 1), a);
-  lxi h, 52941
+  lxi h, 52687
   shld redrawNewBall_1
   lda redrawNewBalls_1
   call redrawNewBall
   ; 143 redrawNewBall(COORDS(41, 1), b);
-  lxi h, 52946
+  lxi h, 52692
   shld redrawNewBall_1
   lda redrawNewBalls_2
   call redrawNewBall
   ; 144 redrawNewBall(COORDS(46, 1), c);
-  lxi h, 52951
+  lxi h, 52697
   shld redrawNewBall_1
   lda redrawNewBalls_3
   jmp redrawNewBall
@@ -2927,19 +2927,19 @@ drawOnOff:
   jmp l245
 l242:
   ; 152 addr = COORDS(5,  43); break;
-  lxi h, 56858
+  lxi h, 56604
   shld drawOnOff_addr
   ; 152 break;
   jmp l241
 l243:
   ; 153 addr = COORDS(19, 43); break;
-  lxi h, 56872
+  lxi h, 56618
   shld drawOnOff_addr
   ; 153 break;
   jmp l241
 l244:
   ; 154 addr = COORDS(34, 43); break;
-  lxi h, 56887
+  lxi h, 56633
   shld drawOnOff_addr
   ; 154 break;
   jmp l241
@@ -3050,27 +3050,27 @@ l261:
   ret
   ; --- showGameOver -----------------------------------------------------------------
 showGameOver:
-  lxi h, 56478
+  lxi h, 56224
   shld drawText_1
   lxi h, string9
   call drawText
   ; 187 drawText(COORDS(4, 39), "o");
-  lxi h, 56481
+  lxi h, 56227
   shld drawText_1
   lxi h, string10
   call drawText
   ; 188 drawText(COORDS(7, 39), "n");
-  lxi h, 56484
+  lxi h, 56230
   shld drawText_1
   lxi h, string11
   call drawText
   ; 189 drawText(COORDS(10, 39), "e");
-  lxi h, 56487
+  lxi h, 56233
   shld drawText_1
   lxi h, string12
   call drawText
   ; 190 drawText(COORDS(12, 39), "c  ");
-  lxi h, 56489
+  lxi h, 56235
   shld drawText_1
   lxi h, string13
   jmp drawText
@@ -3100,11 +3100,28 @@ demo:
   dcr l
   mvi m, 77
   ; 1 ((uchar*)0xEF00)
-  mvi m, 191
+  mvi m, 127
   ; 1 ((uchar*)0xEF00)
   mvi m, 51
   ; 1 ((uchar*)0xEF00)
   mvi m, 19
+  ; 1 ((uchar*)0xEF00)
+  inr l
+  mvi m, 35
+  ; 7 while((VG75[1] & 0x20) == 0); 
+l275:
+  lda 61185
+  ani 32
+  jnz l276
+  jmp l275
+l276:
+  ; 8 while((VG75[1] & 0x20) == 0); 
+l277:
+  lda 61185
+  ani 32
+  jnz l278
+  jmp l277
+l278:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -3121,19 +3138,16 @@ demo:
   ; 1 ((uchar*)0xF000)
   mvi l, 8
   mvi m, 164
-  ; 1 ((uchar*)0xEF00)
-  lxi h, 61185
-  mvi m, 39
-  ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 
+  ; 15 if(CHAR_GEN) asm { ei } else asm { di } 15 asm { ei } else asm { di } 
  ei 
-  ; 13 asm { di } 205 while(d = * p) {
-l275:
+  ; 15 asm { di } 205 while(d = * p) {
+l281:
   lhld demo_p
   mov a, m
   sta demo_d
   ; convertToConfition
   ora a
-  jz l276
+  jz l282
   ; 206 ++p;
   inx h
   shld demo_p
@@ -3229,25 +3243,25 @@ l275:
   ; 224 if(bioskey()!=255) return;
   call 63515
   cpi 255
-  jz l289
+  jz l295
   ; 224 return;
   ret
-l289:
-  jmp l275
-l276:
+l295:
+  jmp l281
+l282:
   ; 226 while(bioskey()==255);
-l290:
+l296:
   call 63515
   cpi 255
-  jnz l291
-  jmp l290
-l291:
+  jnz l297
+  jmp l296
+l297:
   ret
   ; --- printCenter -----------------------------------------------------------------
 printCenter:
   sta printCenter_4
   ; 231 while(1) {
-l292:
+l298:
   ; 232 *a = cl;   a += APOGEY_VIDEO_BPL;
   lda printCenter_1
   lhld printCenter_2
@@ -3316,19 +3330,19 @@ l292:
   dcr m
   lda printCenter_4
   ora a
-  jnz l294
+  jnz l300
   ; 247 return;
   ret
-l294:
-  jmp l292
-l293:
+l300:
+  jmp l298
+l299:
   ret
   ; --- showRecordScreen -----------------------------------------------------------------
 showRecordScreen:
   push b
   sta showRecordScreen_1
   ; 258 a = COORDS(18, 6);
-  lxi b, 53393
+  lxi b, 53139
   ; 260 buf[0]=' ';
   mvi a, 32
   sta (showRecordScreen_buf)+(0)
@@ -3339,23 +3353,23 @@ showRecordScreen:
   sta showRecordScreen_i
   lxi h, hiScores
   shld showRecordScreen_h
-l295:
+l301:
   lda showRecordScreen_i
   cpi 9
-  jnc l296
+  jnc l302
   ; 264 if(i==pos) c=0x84; else c=0x80;
   lxi h, showRecordScreen_1
   cmp m
-  jnz l298
+  jnz l304
   ; 264 c=0x84; else c=0x80;
   mvi a, 132
   sta showRecordScreen_c
-  jmp l299
-l298:
+  jmp l305
+l304:
   ; 264 c=0x80;
   mvi a, 128
   sta showRecordScreen_c
-l299:
+l305:
   ; 266 printCenter(c, a, buf, 1);
   lda showRecordScreen_c
   sta printCenter_1
@@ -3405,75 +3419,75 @@ l299:
   dad b
   mov b, h
   mov c, l
-l297:
+l303:
   lxi h, showRecordScreen_i
   inr m
   lhld showRecordScreen_h
   lxi d, 16
   dad d
   shld showRecordScreen_h
-  jmp l295
-l296:
+  jmp l301
+l302:
   pop b
   ret
   ; --- updateTopScore -----------------------------------------------------------------
 updateTopScore:
-  lxi h, 52910
+  lxi h, 52656
   shld drawNumber_1
   lhld ((hiScores)+(0))+(14)
   call drawNumber
   ; 282 drawChar(COORDS(1,  39), hiScores[0].name[0]);
-  lxi h, 56478
+  lxi h, 56224
   shld drawChar_1
   lda ((hiScores)+(0))+(0)
   call drawChar
   ; 283 drawChar(COORDS(4,  39), hiScores[0].name[1]);
-  lxi h, 56481
+  lxi h, 56227
   shld drawChar_1
   lda ((hiScores)+(0))+(1)
   call drawChar
   ; 284 drawChar(COORDS(7,  39), hiScores[0].name[2]);
-  lxi h, 56484
+  lxi h, 56230
   shld drawChar_1
   lda ((hiScores)+(0))+(2)
   call drawChar
   ; 285 drawChar(COORDS(10, 39), hiScores[0].name[3]);
-  lxi h, 56487
+  lxi h, 56233
   shld drawChar_1
   lda ((hiScores)+(0))+(3)
   call drawChar
   ; 286 drawChar(COORDS(12, 39), hiScores[0].name[4]);
-  lxi h, 56489
+  lxi h, 56235
   shld drawChar_1
   lda ((hiScores)+(0))+(4)
   call drawChar
   ; 287 drawChar(COORDS(14, 39), hiScores[0].name[5]);
-  lxi h, 56491
+  lxi h, 56237
   shld drawChar_1
   lda ((hiScores)+(0))+(5)
   jmp drawChar
 initGameScreen:
   push b
-  ; 293 apogeyScreen3c();
+  ; 292 apogeyScreen3c();
   call apogeyScreen3c
-  ; 295 fillScreen(gameScreen);
+  ; 293 fillScreen(gameScreen);
   lxi h, gameScreen
   call fillScreen
-  ; 297 for(y=0; y<9; y++)
+  ; 296 for(y=0; y<9; y++)
   mvi b, 0
-l300:
+l306:
   mvi a, 9
   cmp b
-  jc l301
-  jz l301
-  ; 298 for(x=0; x<9; x++)
+  jc l307
+  jz l307
+  ; 297 for(x=0; x<9; x++)
   mvi c, 0
-l303:
+l309:
   mvi a, 9
   cmp c
-  jc l304
-  jz l304
-  ; 299 drawSprite(x, y, 0, emptySprite);
+  jc l310
+  jz l310
+  ; 298 drawSprite(x, y, 0, emptySprite);
   mov a, c
   sta drawSprite_1
   mov a, b
@@ -3482,17 +3496,17 @@ l303:
   sta drawSprite_3
   lxi h, emptySprite
   call drawSprite
-l305:
+l311:
   mov a, c
   inr c
-  jmp l303
-l304:
-l302:
+  jmp l309
+l310:
+l308:
   mov a, b
   inr b
-  jmp l300
-l301:
-  ; 301 updateTopScore();
+  jmp l306
+l307:
+  ; 300 updateTopScore();
   call updateTopScore
   pop b
   ret
@@ -3710,36 +3724,36 @@ waitHorzSync_1:
 apogeyScreen3c:
   push b
   ; 3 memset((uchar*)MEM_ADDR, 0, (HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+2); 
-  lxi h, 52789
+  lxi h, 52534
   shld memset_1
   xra a
   sta memset_2
   lxi h, 4810
   call memset
   ; 4 for(v=(uchar*)(MEM_ADDR)-1, i=TOP_INVISIBLE; i; --i) 
-  lxi b, 52788
+  lxi b, 52533
   mvi a, 7
   sta apogeyScreen3c_i
-l306:
+l312:
   ; convertToConfition
   lda apogeyScreen3c_i
   ora a
-  jz l307
+  jz l313
   ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
   inx b
   inx b
   mvi a, 241
   stax b
-l308:
+l314:
   lxi h, apogeyScreen3c_i
   dcr m
-  jmp l306
-l307:
+  jmp l312
+l313:
   ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
-  lxi h, 57598
+  lxi h, 57343
   mvi m, 255
-  ; 10 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*2 + 8; 
-  lxi h, 52811
+  ; 10 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*2 + 9; 
+  lxi h, 52557
   shld apogeyVideoMem
   ; 11 apogeyVideoBpl = (BPL); 
   mvi a, 94
@@ -3751,19 +3765,36 @@ l307:
   dcr l
   mvi m, 77
   ; 1 ((uchar*)0xEF00)
-  mvi m, 191
+  mvi m, 127
   ; 1 ((uchar*)0xEF00)
   mvi m, 51
   ; 1 ((uchar*)0xEF00)
   mvi m, 19
+  ; 1 ((uchar*)0xEF00)
+  inr l
+  mvi m, 35
+  ; 7 while((VG75[1] & 0x20) == 0); 
+l325:
+  lda 61185
+  ani 32
+  jnz l326
+  jmp l325
+l326:
+  ; 8 while((VG75[1] & 0x20) == 0); 
+l327:
+  lda 61185
+  ani 32
+  jnz l328
+  jmp l327
+l328:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
   ; 1 ((uchar*)0xF000)
   mvi l, 4
-  mvi m, 53
+  mvi m, 54
   ; 1 ((uchar*)0xF000)
-  mvi m, 206
+  mvi m, 205
   ; 1 ((uchar*)0xF000)
   inr l
   mvi m, 201
@@ -3772,12 +3803,9 @@ l307:
   ; 1 ((uchar*)0xF000)
   mvi l, 8
   mvi m, 164
-  ; 1 ((uchar*)0xEF00)
-  lxi h, 61185
-  mvi m, 39
-  ; 13 if(CHAR_GEN) asm { ei } else asm { di } 13 asm { ei } else asm { di } 
+  ; 15 if(CHAR_GEN) asm { ei } else asm { di } 15 asm { ei } else asm { di } 
  ei 
-  ; 13 asm { di } 
+  ; 15 asm { di } 
   pop b
   ret
 game:
