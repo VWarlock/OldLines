@@ -1,11 +1,5 @@
-  .org 04800h
-end: 
-  .db 0FFh, 0FFh
+.org 0
 
-entry:
-  .org 0
-  .dw $+4
-  .dw end
 start:
   jmp main
 

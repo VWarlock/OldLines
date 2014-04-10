@@ -9,7 +9,7 @@ type errors.txt
 del errors.txt >nul
 ..\C8080\tasm -gb -b -85 lines.asm lines$.bin >errors.txt
 if errorlevel 1 goto err
--makeBru.js
+-make-bru.js
 if errorlevel 1 goto err
 del errors.txt
 del makerom\vc$.bru

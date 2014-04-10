@@ -1819,34 +1819,34 @@ main:
   call demo
   ; 484 initGameScreen();
   call initGameScreen
-  ; 490 startGame();
+  ; 487 startGame();
   call startGame
-  ; 492 while(1) {
+  ; 489 while(1) {
 l166:
-  ; 493 rand();
+  ; 490 rand();
   call rand
-  ; 495 if(selX!=-1) {
+  ; 492 if(selX!=-1) {
   lda selX
   cpi -1
   jz l168
-  ; 496 selAnimationTT++;
+  ; 493 selAnimationTT++;
   lhld main_selAnimationTT
   mov d, h
   mov e, l
   inx h
   shld main_selAnimationTT
   xchg
-  ; 497 if(selAnimationTT==500) {Сложение
+  ; 494 if(selAnimationTT==500) {Сложение
   lhld main_selAnimationTT
   lxi d, 65036
   dad d
   mov a, l
   ora h
   jnz l169
-  ; 498 selAnimationTT=0;
+  ; 495 selAnimationTT=0;
   lxi h, 0
   shld main_selAnimationTT
-  ; 499 drawSprite(selX, selY, game[selX][selY], ((selX==cursorX && selY==cursorY) ? selCursorAnimation : selAnimation)[selAnimationT]);
+  ; 496 drawSprite(selX, selY, game[selX][selY], ((selX==cursorX && selY==cursorY) ? selCursorAnimation : selAnimation)[selAnimationT]);
   lda selX
   sta drawSprite_1
   lda selY
@@ -1900,19 +1900,19 @@ l173:
   mov d, m
   xchg
   call drawSprite
-  ; 500 selAnimationT++;
+  ; 497 selAnimationT++;
   lxi h, main_selAnimationT
   inr m
-  ; 501 if(selAnimationT>=4) selAnimationT=0; else
+  ; 498 if(selAnimationT>=4) selAnimationT=0; else
   lda main_selAnimationT
   cpi 4
   jc l174
-  ; 501 selAnimationT=0; else
+  ; 498 selAnimationT=0; else
   xra a
   sta main_selAnimationT
   jmp l175
 l174:
-  ; 502 if(playSound && selAnimationT==2) soundJumpSel();convertToConfition
+  ; 499 if(playSound && selAnimationT==2) soundJumpSel();convertToConfition
   lda playSound
   ora a
   jz l176
@@ -1923,31 +1923,31 @@ l176:
 l175:
 l169:
 l168:
-  ; 506 if(keybTimeout) {convertToConfition
+  ; 503 if(keybTimeout) {convertToConfition
   lhld main_keybTimeout
   mov a, l
   ora h
   jz l177
-  ; 507 keybTimeout--;
+  ; 504 keybTimeout--;
   mov d, h
   mov e, l
   dcx h
   shld main_keybTimeout
   xchg
-  ; 508 continue;
+  ; 505 continue;
   jmp l166
 l177:
-  ; 511 c1 = bioskey();
+  ; 508 c1 = bioskey();
   call 63515
   sta main_c1
-  ; 512 if(c == c1) continue;
+  ; 509 if(c == c1) continue;
   lxi h, main_c1
   lda main_c
   cmp m
   jz l166
   mov a, m
   sta main_c
-  ; 515 switch(c) {
+  ; 512 switch(c) {
   cpi 49
   jz l180
   cpi 50
@@ -1972,161 +1972,161 @@ l177:
   jz l200
   jmp l179
 l180:
-  ; 516 showPath  = !showPath;  drawOnOff(0, showPath);  break;convertToConfition
+  ; 513 showPath  = !showPath;  drawOnOff(0, showPath);  break;convertToConfition
   lda showPath
   ora a
   sui 1
   sbb a
   sta showPath
-  ; 516 drawOnOff(0, showPath);  break;
+  ; 513 drawOnOff(0, showPath);  break;
   xra a
   sta drawOnOff_1
   lda showPath
   call drawOnOff
-  ; 516 break;
+  ; 513 break;
   jmp l179
 l181:
-  ; 517 playSound = !playSound; drawOnOff(1, playSound); break;convertToConfition
+  ; 514 playSound = !playSound; drawOnOff(1, playSound); break;convertToConfition
   lda playSound
   ora a
   sui 1
   sbb a
   sta playSound
-  ; 517 drawOnOff(1, playSound); break;
+  ; 514 drawOnOff(1, playSound); break;
   mvi a, 1
   sta drawOnOff_1
   lda playSound
   call drawOnOff
-  ; 517 break;
+  ; 514 break;
   jmp l179
 l182:
-  ; 518 showHelp  = !showHelp;  drawOnOff(2, showHelp);  if(showHelp) redrawNewBalls1(); else redrawNewBalls(7,7,7); break;convertToConfition
+  ; 515 showHelp  = !showHelp;  drawOnOff(2, showHelp);  if(showHelp) redrawNewBalls1(); else redrawNewBalls(7,7,7); break;convertToConfition
   lda showHelp
   ora a
   sui 1
   sbb a
   sta showHelp
-  ; 518 drawOnOff(2, showHelp);  if(showHelp) redrawNewBalls1(); else redrawNewBalls(7,7,7); break;
+  ; 515 drawOnOff(2, showHelp);  if(showHelp) redrawNewBalls1(); else redrawNewBalls(7,7,7); break;
   mvi a, 2
   sta drawOnOff_1
   lda showHelp
   call drawOnOff
-  ; 518 if(showHelp) redrawNewBalls1(); else redrawNewBalls(7,7,7); break;convertToConfition
+  ; 515 if(showHelp) redrawNewBalls1(); else redrawNewBalls(7,7,7); break;convertToConfition
   lda showHelp
   ora a
   jz l183
-  ; 518 redrawNewBalls1(); else redrawNewBalls(7,7,7); break;
+  ; 515 redrawNewBalls1(); else redrawNewBalls(7,7,7); break;
   call redrawNewBalls1
   jmp l184
 l183:
-  ; 518 redrawNewBalls(7,7,7); break;
+  ; 515 redrawNewBalls(7,7,7); break;
   mvi a, 7
   sta redrawNewBalls_1
   sta redrawNewBalls_2
   call redrawNewBalls
 l184:
-  ; 518 break;
+  ; 515 break;
   jmp l179
 l185:
-  ; 520 showRecordScreen(-1);
+  ; 517 showRecordScreen(-1);
   mvi a, 255
   call showRecordScreen
-  ; 521 getch();
+  ; 518 getch();
   call 63491
-  ; 522 drawCells();
+  ; 519 drawCells();
   call drawCells
-  ; 523 break;
+  ; 520 break;
   jmp l179
 l186:
-  ; 524 startGame(); break;
+  ; 521 startGame(); break;
   call startGame
-  ; 524 break;
+  ; 521 break;
   jmp l179
 l187:
-  ; 535 continue;
+  ; 532 continue;
   jmp l166
 l188:
-  ; 536 clearCursor(); if(cursorY==0) cursorY=8; else cursorY--; drawCursor(); break;
+  ; 533 clearCursor(); if(cursorY==0) cursorY=8; else cursorY--; drawCursor(); break;
   call clearCursor
-  ; 536 if(cursorY==0) cursorY=8; else cursorY--; drawCursor(); break;
+  ; 533 if(cursorY==0) cursorY=8; else cursorY--; drawCursor(); break;
   lda cursorY
   ora a
   jnz l189
-  ; 536 cursorY=8; else cursorY--; drawCursor(); break;
+  ; 533 cursorY=8; else cursorY--; drawCursor(); break;
   mvi a, 8
   sta cursorY
   jmp l190
 l189:
-  ; 536 cursorY--; drawCursor(); break;
+  ; 533 cursorY--; drawCursor(); break;
   lxi h, cursorY
   dcr m
 l190:
-  ; 536 drawCursor(); break;
+  ; 533 drawCursor(); break;
   call drawCursor
-  ; 536 break;
+  ; 533 break;
   jmp l179
 l191:
-  ; 537 clearCursor(); if(cursorY==8) cursorY=0; else cursorY++; drawCursor(); break;
+  ; 534 clearCursor(); if(cursorY==8) cursorY=0; else cursorY++; drawCursor(); break;
   call clearCursor
-  ; 537 if(cursorY==8) cursorY=0; else cursorY++; drawCursor(); break;
+  ; 534 if(cursorY==8) cursorY=0; else cursorY++; drawCursor(); break;
   lda cursorY
   cpi 8
   jnz l192
-  ; 537 cursorY=0; else cursorY++; drawCursor(); break;
+  ; 534 cursorY=0; else cursorY++; drawCursor(); break;
   xra a
   sta cursorY
   jmp l193
 l192:
-  ; 537 cursorY++; drawCursor(); break;
+  ; 534 cursorY++; drawCursor(); break;
   lxi h, cursorY
   inr m
 l193:
-  ; 537 drawCursor(); break;
+  ; 534 drawCursor(); break;
   call drawCursor
-  ; 537 break;
+  ; 534 break;
   jmp l179
 l194:
-  ; 538 clearCursor(); if(cursorX==0) cursorX=8; else cursorX--; drawCursor(); break;
+  ; 535 clearCursor(); if(cursorX==0) cursorX=8; else cursorX--; drawCursor(); break;
   call clearCursor
-  ; 538 if(cursorX==0) cursorX=8; else cursorX--; drawCursor(); break;
+  ; 535 if(cursorX==0) cursorX=8; else cursorX--; drawCursor(); break;
   lda cursorX
   ora a
   jnz l195
-  ; 538 cursorX=8; else cursorX--; drawCursor(); break;
+  ; 535 cursorX=8; else cursorX--; drawCursor(); break;
   mvi a, 8
   sta cursorX
   jmp l196
 l195:
-  ; 538 cursorX--; drawCursor(); break;
+  ; 535 cursorX--; drawCursor(); break;
   lxi h, cursorX
   dcr m
 l196:
-  ; 538 drawCursor(); break;
+  ; 535 drawCursor(); break;
   call drawCursor
-  ; 538 break;
+  ; 535 break;
   jmp l179
 l197:
-  ; 539 clearCursor(); if(cursorX==8) cursorX=0; else cursorX++; drawCursor(); break;
+  ; 536 clearCursor(); if(cursorX==8) cursorX=0; else cursorX++; drawCursor(); break;
   call clearCursor
-  ; 539 if(cursorX==8) cursorX=0; else cursorX++; drawCursor(); break;
+  ; 536 if(cursorX==8) cursorX=0; else cursorX++; drawCursor(); break;
   lda cursorX
   cpi 8
   jnz l198
-  ; 539 cursorX=0; else cursorX++; drawCursor(); break;
+  ; 536 cursorX=0; else cursorX++; drawCursor(); break;
   xra a
   sta cursorX
   jmp l199
 l198:
-  ; 539 cursorX++; drawCursor(); break;
+  ; 536 cursorX++; drawCursor(); break;
   lxi h, cursorX
   inr m
 l199:
-  ; 539 drawCursor(); break;
+  ; 536 drawCursor(); break;
   call drawCursor
-  ; 539 break;
+  ; 536 break;
   jmp l179
 l200:
-  ; 541 if(game[cursorX][cursorY]) { if(selX!=-1) drawCell(selX, selY); selX=cursorX, selY=cursorY; break; }
+  ; 538 if(game[cursorX][cursorY]) { if(selX!=-1) drawCell(selX, selY); selX=cursorX, selY=cursorY; break; }
   lhld cursorX
   mvi h, 0
   ; Умножение HL на 2
@@ -2145,40 +2145,40 @@ l200:
   xra a
   ora m
   jz l201
-  ; 541 if(selX!=-1) drawCell(selX, selY); selX=cursorX, selY=cursorY; break; }
+  ; 538 if(selX!=-1) drawCell(selX, selY); selX=cursorX, selY=cursorY; break; }
   lda selX
   cpi -1
   jz l202
-  ; 541 drawCell(selX, selY); selX=cursorX, selY=cursorY; break; }
+  ; 538 drawCell(selX, selY); selX=cursorX, selY=cursorY; break; }
   sta drawCell_1
   lda selY
   call drawCell
 l202:
-  ; 541 selX=cursorX, selY=cursorY; break; }
+  ; 538 selX=cursorX, selY=cursorY; break; }
   lda cursorX
   sta selX
   lda cursorY
   sta selY
-  ; 541 break; }
+  ; 538 break; }
   jmp l179
 l201:
-  ; 542 if(selX==-1) break;
+  ; 539 if(selX==-1) break;
   lda selX
   cpi -1
   jz l179
   call move
-  ; 544 if(gameOver) {convertToConfition
+  ; 541 if(gameOver) {convertToConfition
   lda gameOver
   ora a
   jz l204
-  ; 545 recordAnimation();
+  ; 542 recordAnimation();
   call recordAnimation
-  ; 546 startGame();
+  ; 543 startGame();
   call startGame
 l204:
-  ; 548 break;        
+  ; 545 break;        
 l179:
-  ; 553 keybTimeout=300;
+  ; 550 keybTimeout=300;
   lxi h, 300
   shld main_keybTimeout
   jmp l166
@@ -3140,7 +3140,15 @@ l278:
   mvi m, 164
   ; 15 if(CHAR_GEN) asm { ei } else asm { di } 15 asm { ei } else asm { di } 
  ei 
-  ; 15 asm { di } 205 while(d = * p) {
+  ; 15 asm { di } 1 ((uchar*)0xEF00)
+  lxi h, 61185
+  mvi m, 128
+  ; 1 ((uchar*)0xEF00)
+  dcr l
+  mvi m, 255
+  ; 1 ((uchar*)0xEF00)
+  mvi m, 255
+  ; 209 while(d = * p) {
 l281:
   lhld demo_p
   mov a, m
@@ -3148,10 +3156,10 @@ l281:
   ; convertToConfition
   ora a
   jz l282
-  ; 206 ++p;
+  ; 210 ++p;
   inx h
   shld demo_p
-  ; 207 s = musicFreq[d-1];
+  ; 211 s = musicFreq[d-1];
   lda demo_d
   dcr a
   mvi h, 0
@@ -3175,7 +3183,7 @@ l281:
   mvi h, 0
   mov a, l
   sta 60416
-  ; 209 s += 10; Сложение
+  ; 213 s += 10; Сложение
   lxi d, 10
   lhld demo_s
   dad d
@@ -3189,7 +3197,7 @@ l281:
   mov h, d
   mov a, l
   sta 60417
-  ; 211 s += 15;Сложение
+  ; 215 s += 15;Сложение
   lxi d, 15
   lhld demo_s
   dad d
@@ -3203,53 +3211,53 @@ l281:
   mov h, d
   mov a, l
   sta 60418
-  ; 213 d = *p; ++p;
+  ; 217 d = *p; ++p;
   lhld demo_p
   mov a, m
   sta demo_d
-  ; 213 ++p;
+  ; 217 ++p;
   inx h
   shld demo_p
-  ; 214 d >>= 1; Сдвиг на 1 влево
+  ; 218 d >>= 1; Сдвиг на 1 влево
   cmp a
   rar
   sta demo_d
-  ; 215 delayHS(d); 
+  ; 219 delayHS(d); 
   call delayHS
   ; 1 *(uchar*)0xEC03 = ((CH)==0 ? 0x3E : ((CH)==1 ? 0x7E : 0xBE)); }
   lxi h, 60419
   mvi m, 190
-  ; 217 d <<= 1; Сдвиг на 1 влево
+  ; 221 d <<= 1; Сдвиг на 1 влево
   lda demo_d
   add a
   sta demo_d
-  ; 218 delayHS(d); 
+  ; 222 delayHS(d); 
   call delayHS
   ; 1 *(uchar*)0xEC03 = ((CH)==0 ? 0x3E : ((CH)==1 ? 0x7E : 0xBE)); }
   lxi h, 60419
   mvi m, 126
-  ; 220 d <<= 1; Сдвиг на 1 влево
+  ; 224 d <<= 1; Сдвиг на 1 влево
   lda demo_d
   add a
   sta demo_d
-  ; 221 delayHS(d);
+  ; 225 delayHS(d);
   call delayHS
   ; 1 *(uchar*)0xEC03 = ((CH)==0 ? 0x3E : ((CH)==1 ? 0x7E : 0xBE)); }
   lxi h, 60419
   mvi m, 62
-  ; 223 delayHS(2);
+  ; 227 delayHS(2);
   mvi a, 2
   call delayHS
-  ; 224 if(bioskey()!=255) return;
+  ; 228 if(bioskey()!=255) return;
   call 63515
   cpi 255
   jz l295
-  ; 224 return;
+  ; 228 return;
   ret
 l295:
   jmp l281
 l282:
-  ; 226 while(bioskey()==255);
+  ; 230 while(bioskey()==255);
 l296:
   call 63515
   cpi 255
@@ -3260,78 +3268,78 @@ l297:
   ; --- printCenter -----------------------------------------------------------------
 printCenter:
   sta printCenter_4
-  ; 231 while(1) {
+  ; 235 while(1) {
 l298:
-  ; 232 *a = cl;   a += APOGEY_VIDEO_BPL;
+  ; 236 *a = cl;   a += APOGEY_VIDEO_BPL;
   lda printCenter_1
   lhld printCenter_2
   mov m, a
-  ; 232 a += APOGEY_VIDEO_BPL;Сложение
+  ; 236 a += APOGEY_VIDEO_BPL;Сложение
   lxi d, 94
   lhld printCenter_2
   dad d
   shld printCenter_2
-  ; 233 *a = cl;   a += APOGEY_VIDEO_BPL;
+  ; 237 *a = cl;   a += APOGEY_VIDEO_BPL;
   lda printCenter_1
   mov m, a
-  ; 233 a += APOGEY_VIDEO_BPL;Сложение
+  ; 237 a += APOGEY_VIDEO_BPL;Сложение
   lxi d, 94
   lhld printCenter_2
   dad d
   shld printCenter_2
-  ; 234 *a = cl;   a += APOGEY_VIDEO_BPL;
+  ; 238 *a = cl;   a += APOGEY_VIDEO_BPL;
   lda printCenter_1
   mov m, a
-  ; 234 a += APOGEY_VIDEO_BPL;Сложение
+  ; 238 a += APOGEY_VIDEO_BPL;Сложение
   lxi d, 94
   lhld printCenter_2
   dad d
   shld printCenter_2
-  ; 235 *a = 0x8D; a -= APOGEY_VIDEO_BPL*3-1;
+  ; 239 *a = 0x8D; a -= APOGEY_VIDEO_BPL*3-1;
   mvi m, 141
-  ; 235 a -= APOGEY_VIDEO_BPL*3-1;Сложение
+  ; 239 a -= APOGEY_VIDEO_BPL*3-1;Сложение
   lxi d, 65255
   dad d
   shld printCenter_2
-  ; 237 c = *text;
+  ; 241 c = *text;
   lhld printCenter_3
   mov a, m
   sta printCenter_c
-  ; 238 ++text;
+  ; 242 ++text;
   inx h
   shld printCenter_3
-  ; 239 drawChar(a, c);
+  ; 243 drawChar(a, c);
   lhld printCenter_2
   shld drawChar_1
   call drawChar
-  ; 240 a += 2;Сложение с константой 2
+  ; 244 a += 2;Сложение с константой 2
   lhld printCenter_2
   inx h
   inx h
   shld printCenter_2
-  ; 242 c = *text;
+  ; 246 c = *text;
   lhld printCenter_3
   mov a, m
   sta printCenter_c
-  ; 243 ++text;
+  ; 247 ++text;
   inx h
   shld printCenter_3
-  ; 244 drawChar(a, c);
+  ; 248 drawChar(a, c);
   lhld printCenter_2
   shld drawChar_1
   call drawChar
-  ; 245 a += 2;Сложение с константой 2
+  ; 249 a += 2;Сложение с константой 2
   lhld printCenter_2
   inx h
   inx h
   shld printCenter_2
-  ; 247 if(--l==0) return;
+  ; 251 if(--l==0) return;
   lxi h, printCenter_4
   dcr m
   lda printCenter_4
   ora a
   jnz l300
-  ; 247 return;
+  ; 251 return;
   ret
 l300:
   jmp l298
@@ -3341,15 +3349,15 @@ l299:
 showRecordScreen:
   push b
   sta showRecordScreen_1
-  ; 258 a = COORDS(18, 6);
+  ; 262 a = COORDS(18, 6);
   lxi b, 53139
-  ; 260 buf[0]=' ';
+  ; 264 buf[0]=' ';
   mvi a, 32
   sta (showRecordScreen_buf)+(0)
-  ; 261 buf[6]=0;
+  ; 265 buf[6]=0;
   xra a
   sta (showRecordScreen_buf)+(6)
-  ; 263 for(i=0, h=hiScores; i<9; ++i, ++h) {
+  ; 267 for(i=0, h=hiScores; i<9; ++i, ++h) {
   sta showRecordScreen_i
   lxi h, hiScores
   shld showRecordScreen_h
@@ -3357,20 +3365,20 @@ l301:
   lda showRecordScreen_i
   cpi 9
   jnc l302
-  ; 264 if(i==pos) c=0x84; else c=0x80;
+  ; 268 if(i==pos) c=0x84; else c=0x80;
   lxi h, showRecordScreen_1
   cmp m
   jnz l304
-  ; 264 c=0x84; else c=0x80;
+  ; 268 c=0x84; else c=0x80;
   mvi a, 132
   sta showRecordScreen_c
   jmp l305
 l304:
-  ; 264 c=0x80;
+  ; 268 c=0x80;
   mvi a, 128
   sta showRecordScreen_c
 l305:
-  ; 266 printCenter(c, a, buf, 1);
+  ; 270 printCenter(c, a, buf, 1);
   lda showRecordScreen_c
   sta printCenter_1
   mov h, b
@@ -3380,7 +3388,7 @@ l305:
   shld printCenter_3
   mvi a, 1
   call printCenter
-  ; 268 printCenter(c, a + 5, h->name, 4);
+  ; 272 printCenter(c, a + 5, h->name, 4);
   lda showRecordScreen_c
   sta printCenter_1
   ; Сложение с BC
@@ -3391,7 +3399,7 @@ l305:
   shld printCenter_3
   mvi a, 4
   call printCenter
-  ; 270 i2s(buf+1, h->score);
+  ; 274 i2s(buf+1, h->score);
   lxi h, (showRecordScreen_buf)+(1)
   shld i2s_1
   ; Сложение
@@ -3403,7 +3411,7 @@ l305:
   mov d, m
   xchg
   call i2s
-  ; 271 printCenter(c, a + 5*5, buf, 4);
+  ; 275 printCenter(c, a + 5*5, buf, 4);
   lda showRecordScreen_c
   sta printCenter_1
   ; Сложение с BC
@@ -3414,7 +3422,7 @@ l305:
   shld printCenter_3
   mvi a, 4
   call printCenter
-  ; 273 a += APOGEY_VIDEO_BPL*4;Сложение с BC
+  ; 277 a += APOGEY_VIDEO_BPL*4;Сложение с BC
   lxi h, 376
   dad b
   mov b, h
@@ -3436,58 +3444,58 @@ updateTopScore:
   shld drawNumber_1
   lhld ((hiScores)+(0))+(14)
   call drawNumber
-  ; 282 drawChar(COORDS(1,  39), hiScores[0].name[0]);
+  ; 286 drawChar(COORDS(1,  39), hiScores[0].name[0]);
   lxi h, 56224
   shld drawChar_1
   lda ((hiScores)+(0))+(0)
   call drawChar
-  ; 283 drawChar(COORDS(4,  39), hiScores[0].name[1]);
+  ; 287 drawChar(COORDS(4,  39), hiScores[0].name[1]);
   lxi h, 56227
   shld drawChar_1
   lda ((hiScores)+(0))+(1)
   call drawChar
-  ; 284 drawChar(COORDS(7,  39), hiScores[0].name[2]);
+  ; 288 drawChar(COORDS(7,  39), hiScores[0].name[2]);
   lxi h, 56230
   shld drawChar_1
   lda ((hiScores)+(0))+(2)
   call drawChar
-  ; 285 drawChar(COORDS(10, 39), hiScores[0].name[3]);
+  ; 289 drawChar(COORDS(10, 39), hiScores[0].name[3]);
   lxi h, 56233
   shld drawChar_1
   lda ((hiScores)+(0))+(3)
   call drawChar
-  ; 286 drawChar(COORDS(12, 39), hiScores[0].name[4]);
+  ; 290 drawChar(COORDS(12, 39), hiScores[0].name[4]);
   lxi h, 56235
   shld drawChar_1
   lda ((hiScores)+(0))+(4)
   call drawChar
-  ; 287 drawChar(COORDS(14, 39), hiScores[0].name[5]);
+  ; 291 drawChar(COORDS(14, 39), hiScores[0].name[5]);
   lxi h, 56237
   shld drawChar_1
   lda ((hiScores)+(0))+(5)
   jmp drawChar
 initGameScreen:
   push b
-  ; 292 apogeyScreen3c();
+  ; 296 apogeyScreen3c();
   call apogeyScreen3c
-  ; 293 fillScreen(gameScreen);
+  ; 297 fillScreen(gameScreen);
   lxi h, gameScreen
   call fillScreen
-  ; 296 for(y=0; y<9; y++)
+  ; 300 for(y=0; y<9; y++)
   mvi b, 0
 l306:
   mvi a, 9
   cmp b
   jc l307
   jz l307
-  ; 297 for(x=0; x<9; x++)
+  ; 301 for(x=0; x<9; x++)
   mvi c, 0
 l309:
   mvi a, 9
   cmp c
   jc l310
   jz l310
-  ; 298 drawSprite(x, y, 0, emptySprite);
+  ; 302 drawSprite(x, y, 0, emptySprite);
   mov a, c
   sta drawSprite_1
   mov a, b
@@ -3506,7 +3514,7 @@ l308:
   inr b
   jmp l306
 l307:
-  ; 300 updateTopScore();
+  ; 304 updateTopScore();
   call updateTopScore
   pop b
   ret

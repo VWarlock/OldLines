@@ -200,7 +200,11 @@ void demo() {
   uint x, s;
   uchar d;
 
-   APOGEY_SCREEN_END(((int)startScreen), 64, 0x33, (52*94+7*2+1)*2, 1, 1);
+  APOGEY_SCREEN_END(((int)startScreen), 64, 0x33, (52*94+7*2+1)*2, 1, 1);
+
+  VG75[1] = 0x80;
+  VG75[0] = 0xFF;
+  VG75[0] = 0xFF;
 
   while(d = * p) {
     ++p;

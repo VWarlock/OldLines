@@ -483,9 +483,6 @@ void main() {
   // Инициализируем экран
   initGameScreen();
 
-//  recordAnimation();
-//  while(1);
-
   // Запускаем игру
   startGame();
   

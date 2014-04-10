@@ -34,4 +34,4 @@ while(image.length < 65536) image += encode[0];
 save("romdisk.bin", image);
 
 // И сразу в эмулятор
-save("C:\\emu\\Orion\\romdisk.bin", image);
+// save("C:\\emu\\Orion\\romdisk.bin", image);

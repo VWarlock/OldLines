@@ -5,8 +5,9 @@ del lines.asm
 if errorlevel 1 goto err
 type errors.txt
 del errors.txt >nul
-..\C8080\tasm -gb -b -85 lines.asm lines.rks >errors.txt
+..\C8080\tasm -gb -b -85 lines.asm lines.bin >errors.txt
 if errorlevel 1 goto err
+-make-rks.js
 goto end
 :err
 type errors.txt
