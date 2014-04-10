@@ -5,31 +5,19 @@
   (A1+0)|((A2+0)<<1)|((A3+0)<<2)|((B1+0)<<3)|((B2+0)<<4)|((B3+0)<<5), \
   (A4+0)|((A5+0)<<1)|((A6+0)<<2)|((B4+0)<<3)|((B5+0)<<4)|((B6+0)<<5),
 
-void gchar(uchar* d, uchar c) {
-  register uchar *s;
-
-  if(c>='0' && c<='9') s = font    + 6 * (c - '0'); else
-  if(c>='A' && c<='Z') s = fontEng + 6 * (c - 'A'); else
-  if(c>='`' && c<='~') s = font2   + 6 * (c - '`'); else s = fontSpace;
-            
-  *d = *s; ++d; ++s;
-  *d = *s; ++s; d += apogeyVideoBpl - 1;
-  *d = *s; ++d; ++s;
-  *d = *s; ++s; d += apogeyVideoBpl - 1;
-  *d = *s; ++d; ++s;
-  *d = *s;
-}
-
-void gprint(uchar x, uchar y, char* text) {
-  uchar* a = (uchar*)apogeyVideoMem + x + y*apogeyVideoBpl;
-  for(;*text; ++text, a+=2)
-     gchar(a, *text);
-}
-
 uchar fontSpace[16] = {
   SPRITT( , , , , , ,
           , , , , , )
   SPRITT( , , , , , ,
+          , , , , , )
+  SPRITT( , , , , , ,
+          , , , , , )
+};
+
+uchar fontMin[16] = {
+  SPRITT( , , , , , ,
+          , , , , , )
+  SPRITT(1,1,1,1,1, ,
           , , , , , )
   SPRITT( , , , , , ,
           , , , , , )
@@ -516,3 +504,25 @@ uchar fontEng[16] = {
   SPRITT(1, , , , , ,
          1,1,1,1,1, )
 };              
+
+void gchar(uchar* d, uchar c) {
+  register uchar *s;
+
+  if(c>='0' && c<='9') s = font    + 6 * (c - '0'); else
+  if(c>='A' && c<='Z') s = fontEng + 6 * (c - 'A'); else
+  if(c=='-') s = fontMin; else
+  if(c>='`' && c<='~') s = font2   + 6 * (c - '`'); else s = fontSpace;
+            
+  *d = *s; ++d; ++s;
+  *d = *s; ++s; d += apogeyVideoBpl - 1;
+  *d = *s; ++d; ++s;
+  *d = *s; ++s; d += apogeyVideoBpl - 1;
+  *d = *s; ++d; ++s;
+  *d = *s;
+}
+
+void gprint(uchar x, uchar y, char* text) {
+  uchar* a = (uchar*)apogeyVideoMem + x + y*apogeyVideoBpl;
+  for(;*text; ++text, a+=2)
+     gchar(a, *text);
+}

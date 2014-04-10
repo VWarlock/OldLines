@@ -33,7 +33,7 @@ void main() {
     putch('*');
   }
 
-  printValue("CURSOR: ", wherexy());
+  printValue("\r\nCURSOR: ", wherexy());
 
   while(1) {
     c=getch();

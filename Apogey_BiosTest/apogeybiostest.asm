@@ -101,7 +101,7 @@ l5:
   inr m
   jmp l3
 l4:
-  ; 36 printValue("CURSOR: ", wherexy());
+  ; 36 printValue("\r\nCURSOR: ", wherexy());
   lxi h, string2
   shld printValue_1
   call 63518
@@ -181,10 +181,10 @@ gotoxy_1:
  .ds 1
 gotoxy_2:
  .ds 1
+string2:
+ .db 13,10,67,85,82,83,79,82,58,32,0
 string1:
  .db 66,73,79,83,32,67,82,67,58,32,0
-string2:
- .db 67,85,82,83,79,82,58,32,0
 string0:
  .db 70,82,69,69,32,77,69,77,79,82,89,58,32,0
   .end
