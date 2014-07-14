@@ -1,4 +1,4 @@
-#include <spec/fs.h>
+#include <fs/fs.h>
 
 uchar fs_seek(uint low, uint high, uchar mode) {
   asm {

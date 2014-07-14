@@ -1,4 +1,4 @@
-#include <spec/fs.h>
+#include <fs/fs.h>
 
 uchar fs_move(const char* from, const char* to) {
   asm {

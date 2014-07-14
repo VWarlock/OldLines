@@ -1,4 +1,4 @@
-#include <spec/fs.h>
+#include <fs/fs.h>
 
 void fs_reboot() {
   fs_exec("","");

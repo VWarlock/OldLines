@@ -1,4 +1,4 @@
-#include <spec/fs.h>
+#include <fs/fs.h>
 
 uchar fs_read(void* buf, uint size) {
   asm {

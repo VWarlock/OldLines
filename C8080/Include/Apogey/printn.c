@@ -1,7 +1,5 @@
 #include <apogey/video.h>
                              
-void printn(uchar x, uchar y, char* text, uchar len) {
-  uchar* dest = apogeyVideoMem + y * apogeyVideoBpl + x;
-  for(;len; ++text, ++dest, --len)
-    *dest = *text;
+void printn(uchar x, uchar y, uchar len, char* text) {
+  print2n(charAddr(x, y), len, text);
 }

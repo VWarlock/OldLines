@@ -1,4 +1,4 @@
-#include <spec/fs.h>
+#include <fs/fs.h>
 
 uchar fs_write(const void* buf, uint size) {
   asm {

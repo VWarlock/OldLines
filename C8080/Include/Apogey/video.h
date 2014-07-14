@@ -40,9 +40,16 @@ void apogeyScreen3c() @ "apogey/apogeyscreen3c.c"; // 64x51, 16  скрытых атрибут
 
 // функции вывода текста на экран
 
-void print(uchar x, uchar y, char* text)             @ "apogey/print.c";
-void printn(uchar x, uchar y, char* text, uchar len) @ "apogey/printn.c";
-void printcn(uchar x, uchar y, char c, uchar len)    @ "apogey/printcn.c";
+void print(uchar x, uchar y, char* text)              @ "apogey/print.c";
+void print2(uchar* a, char* text)                     @ "apogey/print2.c";
+void printn(uchar x, uchar y, uchar len, char* text)  @ "apogey/printn.c";
+void print2n(uchar* a, uchar len, char* text)         @ "apogey/print2n.c";
+void printm(uchar x, uchar y, uchar len, char* text)  @ "apogey/printm.c";
+void print2m(uchar* a, uchar len, char* text)         @ "apogey/print2m.c";
+void printcn(uchar x, uchar y, uchar len, char c)     @ "apogey/printcn.c";
+void print2cn(uchar* a, uchar len, char c)            @ "apogey/print2cn.c";
+uchar* charAddr(uchar x, uchar y)                     @ "apogey/charAddr.c";
+void directCursor(uchar x, uchar y)                   @ "apogey/directCursor.c";
 
 // Ожидание КСИ
 

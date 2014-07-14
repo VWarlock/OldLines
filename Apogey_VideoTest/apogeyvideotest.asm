@@ -1,7 +1,33 @@
   .include "stdlib8080.inc"
+print2x:
+  shld print2x_2
+  ; 9 asm {
+    xchg
+    lhld print2x_1
+print2x_loop:
+    ldax d
+    ora  a
+    rz
+    mov  m, a
+    inx  h
+    inx  d
+    jmp  print2x_loop
+  
+  ret
+  ; --- printx -----------------------------------------------------------------
+printx:
+  shld printx_3
+  ; 24 print2x(charAddr(x, y), text);
+  lda printx_1
+  sta charAddr_1
+  lda printx_2
+  call charAddr
+  shld print2x_1
+  lhld printx_3
+  jmp print2x
 test:
   sta test_1
-  ; 10 for(i=1; i<apogeyVideoHeight; i++) {
+  ; 29 for(i=1; i<apogeyVideoHeight; i++) {
   mvi a, 1
   sta test_i
 l0:
@@ -9,32 +35,32 @@ l0:
   lda test_i
   cmp m
   jnc l1
-  ; 11 print(i,i,"\x81HELLO WORLD\x84");
-  sta print_1
+  ; 30 printx(i,i,"\x81HELLO WORLD\x84");
+  sta printx_1
   lda test_i
-  sta print_2
+  sta printx_2
   lxi h, string0
-  call print
-  ; 12 print(64-16-i,i,"\x84HELLO WORLD\x81");Арифметика 3/4
+  call printx
+  ; 31 printx(64-16-i,i,"\x84HELLO WORLD\x81");Арифметика 3/4
   lxi h, test_i
   mvi a, 48
   sub m
-  sta print_1
+  sta printx_1
   mov a, m
-  sta print_2
+  sta printx_2
   lxi h, string1
-  call print
+  call printx
 l2:
   lxi h, test_i
   mov a, m
   inr m
   jmp l0
 l1:
-  ; 14 getch();
+  ; 33 getch();
   jmp 63491
 gtest:
   sta gtest_1
-  ; 19 for(i=3; i<apogeyVideoHeight; i++) {
+  ; 38 for(i=3; i<apogeyVideoHeight; i++) {
   mvi a, 3
   sta gtest_i
 l3:
@@ -42,32 +68,32 @@ l3:
   lda gtest_i
   cmp m
   jnc l4
-  ; 20 print(i,i,"\x81\x44\x7B\x7F\x3F\x7F\x7B\x44\x84");
-  sta print_1
+  ; 39 printx(i,i,"\x81\x44\x7B\x7F\x3F\x7F\x7B\x44\x84");
+  sta printx_1
   lda gtest_i
-  sta print_2
+  sta printx_2
   lxi h, string2
-  call print
-  ; 21 print(64-11-i,i,"\x84\x44\x7B\x7F\x3F\x7F\x7B\x44\x81");Арифметика 3/4
+  call printx
+  ; 40 printx(64-11-i,i,"\x84\x44\x7B\x7F\x3F\x7F\x7B\x44\x81");Арифметика 3/4
   lxi h, gtest_i
   mvi a, 53
   sub m
-  sta print_1
+  sta printx_1
   mov a, m
-  sta print_2
+  sta printx_2
   lxi h, string3
-  call print
+  call printx
 l5:
   lxi h, gtest_i
   mov a, m
   inr m
   jmp l3
 l4:
-  ; 23 getch();
+  ; 42 getch();
   jmp 63491
 test16:
   sta test16_1
-  ; 29 for(i=2; i<apogeyVideoHeight; i++) {
+  ; 48 for(i=2; i<apogeyVideoHeight; i++) {
   mvi a, 2
   sta test16_i
 l6:
@@ -75,52 +101,52 @@ l6:
   lda test16_i
   cmp m
   jnc l7
-  ; 30 print(0,i,"\x80HELL\x81O WO\x84RLD \x85!!! \x88THIS\x89 IS \x8CTEST\x8D:):)");
+  ; 49 printx(0,i,"\x80HELL\x81O WO\x84RLD \x85!!! \x88THIS\x89 IS \x8CTEST\x8D:):)");
   xra a
-  sta print_1
+  sta printx_1
   lda test16_i
-  sta print_2
+  sta printx_2
   lxi h, string4
-  call print
-  ; 31 print(40,i,"\x90HELL\x91O WO\x94RLD \x95!!! \x98THIS\x99 IS \x9CTEST\x9D:):)");
+  call printx
+  ; 50 printx(40,i,"\x90HELL\x91O WO\x94RLD \x95!!! \x98THIS\x99 IS \x9CTEST\x9D:):)");
   mvi a, 40
-  sta print_1
+  sta printx_1
   lda test16_i
-  sta print_2
+  sta printx_2
   lxi h, string5
-  call print
-  ; 32 i++;
+  call printx
+  ; 51 i++;
   lxi h, test16_i
   inr m
-  ; 33 if(i==apogeyVideoHeight) break;
+  ; 52 if(i==apogeyVideoHeight) break;
   lxi h, test16_1
   lda test16_i
   cmp m
   jz l7
   xra a
-  sta print_1
+  sta printx_1
   lda test16_i
-  sta print_2
+  sta printx_2
   lxi h, string6
-  call print
-  ; 35 print(40,i,"\x92HELL\x93O WO\x96RLD \x97!!! \x9ATHIS\x9B IS \x9ETEST\x9F:):)");
+  call printx
+  ; 54 printx(40,i,"\x92HELL\x93O WO\x96RLD \x97!!! \x9ATHIS\x9B IS \x9ETEST\x9F:):)");
   mvi a, 40
-  sta print_1
+  sta printx_1
   lda test16_i
-  sta print_2
+  sta printx_2
   lxi h, string7
-  call print
+  call printx
 l8:
   lxi h, test16_i
   mov a, m
   inr m
   jmp l6
 l7:
-  ; 37 getch();
+  ; 56 getch();
   jmp 63491
 gtest16:
   sta gtest16_1
-  ; 42 for(i=3; i<apogeyVideoHeight; i++) {
+  ; 61 for(i=3; i<apogeyVideoHeight; i++) {
   mvi a, 3
   sta gtest16_i
 l10:
@@ -128,27 +154,27 @@ l10:
   lda gtest16_i
   cmp m
   jnc l11
-  ; 43 print(0 ,i,"\x80\x3F\x7F\x7B\x44\x81\x3F\x7F\x7B\x44\x84\x3F\x7F\x7B\x44\x85\x3F\x7F\x7B\x44\x88\x3F\x7F\x7B\x44\x89\x3F\x7F\x7B\x44\x8C\x3F\x7F\x7B\x44\x8D\x3F\x7F\x7B\x44");
+  ; 62 printx(0 ,i,"\x80\x3F\x7F\x7B\x44\x81\x3F\x7F\x7B\x44\x84\x3F\x7F\x7B\x44\x85\x3F\x7F\x7B\x44\x88\x3F\x7F\x7B\x44\x89\x3F\x7F\x7B\x44\x8C\x3F\x7F\x7B\x44\x8D\x3F\x7F\x7B\x44");
   xra a
-  sta print_1
+  sta printx_1
   lda gtest16_i
-  sta print_2
+  sta printx_2
   lxi h, string8
-  call print
-  ; 44 print(40,i,"\x90\x3F\x7F\x7B\x44\x91\x3F\x7F\x7B\x44\x94\x3F\x7F\x7B\x44\x95\x3F\x7F\x7B\x44\x98\x3F\x7F\x7B\x44\x99\x3F\x7F\x7B\x44\x9C\x3F\x7F\x7B\x44\x9D\x3F\x7F\x7B\x44");
+  call printx
+  ; 63 printx(40,i,"\x90\x3F\x7F\x7B\x44\x91\x3F\x7F\x7B\x44\x94\x3F\x7F\x7B\x44\x95\x3F\x7F\x7B\x44\x98\x3F\x7F\x7B\x44\x99\x3F\x7F\x7B\x44\x9C\x3F\x7F\x7B\x44\x9D\x3F\x7F\x7B\x44");
   mvi a, 40
-  sta print_1
+  sta printx_1
   lda gtest16_i
-  sta print_2
+  sta printx_2
   lxi h, string9
-  call print
+  call printx
 l12:
   lxi h, gtest16_i
   mov a, m
   inr m
   jmp l10
 l11:
-  ; 46 getch();
+  ; 65 getch();
   jmp 63491
 main:
   lxi h, 61185
@@ -158,154 +184,154 @@ main:
   mvi m, 255
   ; 1 ((uchar*)0xEF00)
   mvi m, 255
-  ; 55 while(1) {
+  ; 74 while(1) {
 l13:
-  ; 56 apogeyScreen0(); 
+  ; 75 apogeyScreen0(); 
   call apogeyScreen0
-  ; 57 print(0,0,"SCREEN 0 64X25 50HZ SPACE ATTR");
+  ; 76 printx(0,0,"SCREEN 0 64X25 50HZ SPACE ATTR");
   xra a
-  sta print_1
-  sta print_2
+  sta printx_1
+  sta printx_2
   lxi h, string10
-  call print
-  ; 58 test(25);
+  call printx
+  ; 77 test(25);
   mvi a, 25
   call test
-  ; 60 apogeyScreen0B(); 
+  ; 79 apogeyScreen0B(); 
   call apogeyScreen0b
-  ; 61 print(0,0,"SCREEN 0B 64X25 50HZ");
+  ; 80 printx(0,0,"SCREEN 0B 64X25 50HZ");
   xra a
-  sta print_1
-  sta print_2
+  sta printx_1
+  sta printx_2
   lxi h, string11
-  call print
-  ; 62 test(25);
+  call printx
+  ; 81 test(25);
   mvi a, 25
   call test
-  ; 64 apogeyScreen1();
+  ; 83 apogeyScreen1();
   call apogeyScreen1
-  ; 65 print(0,0,"SCREEN 1 64X25 60HZ SPACE ATTR");
+  ; 84 printx(0,0,"SCREEN 1 64X25 60HZ SPACE ATTR");
   xra a
-  sta print_1
-  sta print_2
+  sta printx_1
+  sta printx_2
   lxi h, string12
-  call print
-  ; 66 test(25);    
+  call printx
+  ; 85 test(25);    
   mvi a, 25
   call test
-  ; 68 apogeyScreen1B();
+  ; 87 apogeyScreen1B();
   call apogeyScreen1b
-  ; 69 print(0,0,"SCREEN 1B 64X25 60HZ");
+  ; 88 printx(0,0,"SCREEN 1B 64X25 60HZ");
   xra a
-  sta print_1
-  sta print_2
+  sta printx_1
+  sta printx_2
   lxi h, string13
-  call print
-  ; 70 test(25);
+  call printx
+  ; 89 test(25);
   mvi a, 25
   call test
-  ; 72 apogeyScreen2A();
+  ; 91 apogeyScreen2A();
   call apogeyScreen2a
-  ; 73 print(0,0,"SCREEN 2A 64X30 0-2 COLORS PER LINE");
+  ; 92 printx(0,0,"SCREEN 2A 64X30 0-2 COLORS PER LINE");
   xra a
-  sta print_1
-  sta print_2
+  sta printx_1
+  sta printx_2
   lxi h, string14
-  call print
-  ; 74 test(31);    
+  call printx
+  ; 93 test(31);    
   mvi a, 31
   call test
-  ; 76 apogeyScreen2B();
+  ; 95 apogeyScreen2B();
   call apogeyScreen2b
-  ; 77 print(0,0,"SCREEN 2B 64X30 0-5 COLORS PER LINE");
+  ; 96 printx(0,0,"SCREEN 2B 64X30 0-5 COLORS PER LINE");
   xra a
-  sta print_1
-  sta print_2
+  sta printx_1
+  sta printx_2
   lxi h, string15
-  call print
-  ; 78 test(31);
+  call printx
+  ; 97 test(31);
   mvi a, 31
   call test
-  ; 80 apogeyScreen2C();
+  ; 99 apogeyScreen2C();
   call apogeyScreen2c
-  ; 81 print(0,0,"SCREEN 2C 64X30 16 COLORS");
+  ; 100 printx(0,0,"SCREEN 2C 64X30 16 COLORS");
   xra a
-  sta print_1
-  sta print_2
+  sta printx_1
+  sta printx_2
   lxi h, string16
-  call print
-  ; 82 print(32,0,"\x8080\x8181\x8484\x8585\x8888\x8989\x8C8C\x8D8D\x8282\x8383\x8686\x8787\x8A8A\x8B8B\x8E8E\x8F8F");
+  call printx
+  ; 101 printx(32,0,"\x8080\x8181\x8484\x8585\x8888\x8989\x8C8C\x8D8D\x8282\x8383\x8686\x8787\x8A8A\x8B8B\x8E8E\x8F8F");
   mvi a, 32
-  sta print_1
+  sta printx_1
   xra a
-  sta print_2
+  sta printx_2
   lxi h, string17
-  call print
-  ; 83 print(32,1,"\x9080\x9181\x9484\x9585\x9888\x9989\x9C8C\x9D8D\x9282\x9383\x9686\x9787\x9A8A\x9B8B\x9E8E\x9F8F");
+  call printx
+  ; 102 printx(32,1,"\x9080\x9181\x9484\x9585\x9888\x9989\x9C8C\x9D8D\x9282\x9383\x9686\x9787\x9A8A\x9B8B\x9E8E\x9F8F");
   mvi a, 32
-  sta print_1
+  sta printx_1
   mvi a, 1
-  sta print_2
+  sta printx_2
   lxi h, string18
-  call print
-  ; 84 test16(31);
+  call printx
+  ; 103 test16(31);
   mvi a, 31
   call test16
-  ; 86 apogeyScreen3A();
+  ; 105 apogeyScreen3A();
   call apogeyScreen3a
-  ; 87 gprint(0, 0, "SCREEN 3A 192X104 SPC ATTR");
+  ; 106 gprint(0, 0, "SCREEN 3A 192X104 SPC ATTR");
   xra a
   sta gprint_1
   sta gprint_2
   lxi h, string19
   call gprint
-  ; 88 gtest(51);    
+  ; 107 gtest(51);    
   mvi a, 51
   call gtest
-  ; 90 apogeyScreen3B();
+  ; 109 apogeyScreen3B();
   call apogeyScreen3b
-  ; 91 gprint(0, 0, "SCREEN 3B 192X104 0-5");
+  ; 110 gprint(0, 0, "SCREEN 3B 192X104 0-5");
   xra a
   sta gprint_1
   sta gprint_2
   lxi h, string20
   call gprint
-  ; 92 gtest(51);
+  ; 111 gtest(51);
   mvi a, 51
   call gtest
-  ; 94 apogeyScreen3C();
+  ; 113 apogeyScreen3C();
   call apogeyScreen3c
-  ; 95 print(32,0,"\x80\x7B\x81\x7B\x84\x7B\x85\x7B\x88\x7B\x89\x7B\x8C\x7B\x8D\x7B\x82\x7B\x83\x7B\x86\x7B\x87\x7B\x8A\x7B\x8B\x7B\x8E\x7B\x80");
+  ; 114 printx(32,0,"\x80\x7B\x81\x7B\x84\x7B\x85\x7B\x88\x7B\x89\x7B\x8C\x7B\x8D\x7B\x82\x7B\x83\x7B\x86\x7B\x87\x7B\x8A\x7B\x8B\x7B\x8E\x7B\x80");
   mvi a, 32
-  sta print_1
+  sta printx_1
   xra a
-  sta print_2
+  sta printx_2
   lxi h, string21
-  call print
-  ; 96 print(32,1,"\x90\x7B\x91\x7B\x94\x7B\x95\x7B\x98\x7B\x99\x7B\x9C\x7B\x9D\x7B\x92\x7B\x93\x7B\x96\x7B\x97\x7B\x9A\x7B\x9B\x7B\x9E\x7B\x80");
+  call printx
+  ; 115 printx(32,1,"\x90\x7B\x91\x7B\x94\x7B\x95\x7B\x98\x7B\x99\x7B\x9C\x7B\x9D\x7B\x92\x7B\x93\x7B\x96\x7B\x97\x7B\x9A\x7B\x9B\x7B\x9E\x7B\x80");
   mvi a, 32
-  sta print_1
+  sta printx_1
   mvi a, 1
-  sta print_2
+  sta printx_2
   lxi h, string22
-  call print
-  ; 97 print(32,2,"\x80\x7B\x81\x7B\x84\x7B\x85\x7B\x88\x7B\x89\x7B\x8C\x7B\x8D\x7B\x82\x7B\x83\x7B\x86\x7B\x87\x7B\x8A\x7B\x8B\x7B\x8E\x7B\x80");
+  call printx
+  ; 116 printx(32,2,"\x80\x7B\x81\x7B\x84\x7B\x85\x7B\x88\x7B\x89\x7B\x8C\x7B\x8D\x7B\x82\x7B\x83\x7B\x86\x7B\x87\x7B\x8A\x7B\x8B\x7B\x8E\x7B\x80");
   mvi a, 32
-  sta print_1
+  sta printx_1
   mvi a, 2
-  sta print_2
+  sta printx_2
   lxi h, string21
-  call print
-  ; 98 gprint(0, 0, "3C 192X104 16");
+  call printx
+  ; 117 gprint(0, 0, "3C 192X104 16");
   xra a
   sta gprint_1
   sta gprint_2
   lxi h, string23
   call gprint
-  ; 99 gtest16(51);
+  ; 118 gtest16(51);
   mvi a, 51
   call gtest16
-  ; 101 gigaScreen();
+  ; 120 gigaScreen();
   call gigaScreen
   jmp l13
 l14:
@@ -540,12 +566,11 @@ l38:
  ei 
   ; 15 asm { di } 116 getch();
   jmp 63491
-print:
-  shld print_3
-  ; 4 apogeyVideoMem + y * apogeyVideoBpl + x;<dest>
+charAddr:
+  sta charAddr_2
+  ; 4 return apogeyVideoMem + y * apogeyVideoBpl + x;
   lxi h, apogeyVideoBpl
   mov d, m
-  lda print_2
   call op_mul
   ; Сложение
   xchg
@@ -553,30 +578,9 @@ print:
   dad d
   ; Сложение
   xchg
-  lhld print_1
+  lhld charAddr_1
   mvi h, 0
   dad d
-  shld print_dest
-  ; 5 for(;*text; ++text, ++dest)
-l41:
-  ; convertToConfition
-  lhld print_3
-  xra a
-  ora m
-  jz l42
-  ; 6 *dest = *text;
-  mov a, m
-  lhld print_dest
-  mov m, a
-l43:
-  lhld print_3
-  inx h
-  shld print_3
-  lhld print_dest
-  inx h
-  shld print_dest
-  jmp l41
-l42:
   ret
   ; --- apogeyScreen0 -----------------------------------------------------------------
 apogeyScreen0:
@@ -610,19 +614,19 @@ apogeyScreen0:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l56:
+l53:
   lda 61185
   ani 32
-  jnz l57
-  jmp l56
-l57:
+  jnz l54
+  jmp l53
+l54:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l58:
+l55:
   lda 61185
   ani 32
-  jnz l59
-  jmp l58
-l59:
+  jnz l56
+  jmp l55
+l56:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -658,11 +662,11 @@ apogeyScreen0b:
   ; 6 for(i = FULL_HEIGHT; i; --i) 
   mvi a, 30
   sta apogeyScreen0b_i
-l63:
+l60:
   ; convertToConfition
   lda apogeyScreen0b_i
   ora a
-  jz l64
+  jz l61
   ; 7 v += apogeyVideoBpl; *v = 0xF1; } Сложение с BC
   lhld apogeyVideoBpl
   mvi h, 0
@@ -672,11 +676,11 @@ l63:
   ; 7 *v = 0xF1; } 
   mvi a, 241
   stax b
-l65:
+l62:
   lxi h, apogeyScreen0b_i
   dcr m
-  jmp l63
-l64:
+  jmp l60
+l61:
   ; 9 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*(BPL) + ((HIDDEN_ATTRIB) ? 9 : 8); 
   lxi h, 58051
   shld apogeyVideoMem
@@ -699,19 +703,19 @@ l64:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l74:
+l71:
   lda 61185
   ani 32
-  jnz l75
-  jmp l74
-l75:
+  jnz l72
+  jmp l71
+l72:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l76:
+l73:
   lda 61185
   ani 32
-  jnz l77
-  jmp l76
-l77:
+  jnz l74
+  jmp l73
+l74:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -764,19 +768,19 @@ apogeyScreen1:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l92:
+l89:
   lda 61185
   ani 32
-  jnz l93
-  jmp l92
-l93:
+  jnz l90
+  jmp l89
+l90:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l94:
+l91:
   lda 61185
   ani 32
-  jnz l95
-  jmp l94
-l95:
+  jnz l92
+  jmp l91
+l92:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -812,11 +816,11 @@ apogeyScreen1b:
   ; 6 for(i = FULL_HEIGHT; i; --i) 
   mvi a, 30
   sta apogeyScreen1b_i
-l99:
+l96:
   ; convertToConfition
   lda apogeyScreen1b_i
   ora a
-  jz l100
+  jz l97
   ; 7 v += apogeyVideoBpl; *v = 0xF1; } Сложение с BC
   lhld apogeyVideoBpl
   mvi h, 0
@@ -826,11 +830,11 @@ l99:
   ; 7 *v = 0xF1; } 
   mvi a, 241
   stax b
-l101:
+l98:
   lxi h, apogeyScreen1b_i
   dcr m
-  jmp l99
-l100:
+  jmp l96
+l97:
   ; 9 apogeyVideoMem = (uchar*)(MEM_ADDR) + (TOP_INVISIBLE)*(BPL) + ((HIDDEN_ATTRIB) ? 9 : 8); 
   lxi h, 58051
   shld apogeyVideoMem
@@ -853,19 +857,19 @@ l100:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l110:
+l107:
   lda 61185
   ani 32
-  jnz l111
-  jmp l110
-l111:
+  jnz l108
+  jmp l107
+l108:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l112:
+l109:
   lda 61185
   ani 32
-  jnz l113
-  jmp l112
-l113:
+  jnz l110
+  jmp l109
+l110:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -900,29 +904,29 @@ apogeyScreen2a:
   lxi b, 57807
   mvi a, 3
   sta apogeyScreen2a_i
-l116:
+l113:
   ; convertToConfition
   lda apogeyScreen2a_i
   ora a
-  jz l117
+  jz l114
   ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
   inx b
   inx b
   mvi a, 241
   stax b
-l118:
+l115:
   lxi h, apogeyScreen2a_i
   dcr m
-  jmp l116
-l117:
+  jmp l113
+l114:
   ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 
   mvi a, 31
   sta apogeyScreen2a_i
-l120:
+l117:
   ; convertToConfition
   lda apogeyScreen2a_i
   ora a
-  jz l121
+  jz l118
   ; 8 v += (BPL), *v = 0xF1; Сложение с BC
   lxi h, 75
   dad b
@@ -930,11 +934,11 @@ l120:
   mov c, l
   mvi a, 241
   stax b
-l122:
+l119:
   lxi h, apogeyScreen2a_i
   dcr m
-  jmp l120
-l121:
+  jmp l117
+l118:
   ; 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
   lxi h, 60140
   mvi m, 255
@@ -960,19 +964,19 @@ l121:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l129:
+l126:
   lda 61185
   ani 32
-  jnz l130
-  jmp l129
-l130:
+  jnz l127
+  jmp l126
+l127:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l131:
+l128:
   lda 61185
   ani 32
-  jnz l132
-  jmp l131
-l132:
+  jnz l129
+  jmp l128
+l129:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -1007,29 +1011,29 @@ apogeyScreen2b:
   lxi b, 54917
   mvi a, 3
   sta apogeyScreen2b_i
-l135:
+l132:
   ; convertToConfition
   lda apogeyScreen2b_i
   ora a
-  jz l136
+  jz l133
   ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
   inx b
   inx b
   mvi a, 241
   stax b
-l137:
+l134:
   lxi h, apogeyScreen2b_i
   dcr m
-  jmp l135
-l136:
+  jmp l132
+l133:
   ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 
   mvi a, 31
   sta apogeyScreen2b_i
-l139:
+l136:
   ; convertToConfition
   lda apogeyScreen2b_i
   ora a
-  jz l140
+  jz l137
   ; 8 v += (BPL), *v = 0xF1; Сложение с BC
   lxi h, 78
   dad b
@@ -1037,11 +1041,11 @@ l139:
   mov c, l
   mvi a, 241
   stax b
-l141:
+l138:
   lxi h, apogeyScreen2b_i
   dcr m
-  jmp l139
-l140:
+  jmp l136
+l137:
   ; 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
   lxi h, 57343
   mvi m, 255
@@ -1067,19 +1071,19 @@ l140:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l148:
+l145:
   lda 61185
   ani 32
-  jnz l149
-  jmp l148
-l149:
+  jnz l146
+  jmp l145
+l146:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l150:
+l147:
   lda 61185
   ani 32
-  jnz l151
-  jmp l150
-l151:
+  jnz l148
+  jmp l147
+l148:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -1114,21 +1118,21 @@ apogeyScreen2c:
   lxi b, 54421
   mvi a, 3
   sta apogeyScreen2c_i
-l154:
+l151:
   ; convertToConfition
   lda apogeyScreen2c_i
   ora a
-  jz l155
+  jz l152
   ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
   inx b
   inx b
   mvi a, 241
   stax b
-l156:
+l153:
   lxi h, apogeyScreen2c_i
   dcr m
-  jmp l154
-l155:
+  jmp l151
+l152:
   ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
   lxi h, 57343
   mvi m, 255
@@ -1154,19 +1158,19 @@ l155:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l167:
+l164:
   lda 61185
   ani 32
-  jnz l168
-  jmp l167
-l168:
+  jnz l165
+  jmp l164
+l165:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l169:
+l166:
   lda 61185
   ani 32
-  jnz l170
-  jmp l169
-l170:
+  jnz l167
+  jmp l166
+l167:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -1201,29 +1205,29 @@ apogeyScreen3a:
   lxi b, 53502
   mvi a, 7
   sta apogeyScreen3a_i
-l173:
+l170:
   ; convertToConfition
   lda apogeyScreen3a_i
   ora a
-  jz l174
+  jz l171
   ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
   inx b
   inx b
   mvi a, 241
   stax b
-l175:
+l172:
   lxi h, apogeyScreen3a_i
   dcr m
-  jmp l173
-l174:
+  jmp l170
+l171:
   ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 
   mvi a, 51
   sta apogeyScreen3a_i
-l177:
+l174:
   ; convertToConfition
   lda apogeyScreen3a_i
   ora a
-  jz l178
+  jz l175
   ; 8 v += (BPL), *v = 0xF1; Сложение с BC
   lxi h, 75
   dad b
@@ -1231,11 +1235,11 @@ l177:
   mov c, l
   mvi a, 241
   stax b
-l179:
+l176:
   lxi h, apogeyScreen3a_i
   dcr m
-  jmp l177
-l178:
+  jmp l174
+l175:
   ; 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
   lxi h, 57343
   mvi m, 255
@@ -1261,19 +1265,19 @@ l178:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l186:
+l183:
   lda 61185
   ani 32
-  jnz l187
-  jmp l186
-l187:
+  jnz l184
+  jmp l183
+l184:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l188:
+l185:
   lda 61185
   ani 32
-  jnz l189
-  jmp l188
-l189:
+  jnz l186
+  jmp l185
+l186:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -1309,29 +1313,29 @@ apogeyScreen3b:
   lxi b, 53349
   mvi a, 7
   sta apogeyScreen3b_i
-l192:
+l189:
   ; convertToConfition
   lda apogeyScreen3b_i
   ora a
-  jz l193
+  jz l190
   ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
   inx b
   inx b
   mvi a, 241
   stax b
-l194:
+l191:
   lxi h, apogeyScreen3b_i
   dcr m
-  jmp l192
-l193:
+  jmp l189
+l190:
   ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 
   mvi a, 51
   sta apogeyScreen3b_i
-l196:
+l193:
   ; convertToConfition
   lda apogeyScreen3b_i
   ora a
-  jz l197
+  jz l194
   ; 8 v += (BPL), *v = 0xF1; Сложение с BC
   lxi h, 78
   dad b
@@ -1339,11 +1343,11 @@ l196:
   mov c, l
   mvi a, 241
   stax b
-l198:
+l195:
   lxi h, apogeyScreen3b_i
   dcr m
-  jmp l196
-l197:
+  jmp l193
+l194:
   ; 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
   lxi h, 57343
   mvi m, 255
@@ -1369,19 +1373,19 @@ l197:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l205:
+l202:
   lda 61185
   ani 32
-  jnz l206
-  jmp l205
-l206:
+  jnz l203
+  jmp l202
+l203:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l207:
+l204:
   lda 61185
   ani 32
-  jnz l208
-  jmp l207
-l208:
+  jnz l205
+  jmp l204
+l205:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -1417,21 +1421,21 @@ apogeyScreen3c:
   lxi b, 52533
   mvi a, 7
   sta apogeyScreen3c_i
-l211:
+l208:
   ; convertToConfition
   lda apogeyScreen3c_i
   ora a
-  jz l212
+  jz l209
   ; 5 v+=2, *v = 0xF1; Сложение BC с константой 2
   inx b
   inx b
   mvi a, 241
   stax b
-l213:
+l210:
   lxi h, apogeyScreen3c_i
   dcr m
-  jmp l211
-l212:
+  jmp l208
+l209:
   ; 6 if(FILL_EOL) 7 for(i = HEIGHT; i; --i) 9 ((uchar*)MEM_ADDR)[(HEIGHT)*(BPL)+(TOP_INVISIBLE)*2+1] = 0xFF; 
   lxi h, 57343
   mvi m, 255
@@ -1457,19 +1461,19 @@ l212:
   inr l
   mvi m, 35
   ; 7 while((VG75[1] & 0x20) == 0); 
-l224:
+l221:
   lda 61185
   ani 32
-  jnz l225
-  jmp l224
-l225:
+  jnz l222
+  jmp l221
+l222:
   ; 8 while((VG75[1] & 0x20) == 0); 
-l226:
+l223:
   lda 61185
   ani 32
-  jnz l227
-  jmp l226
-l227:
+  jnz l224
+  jmp l223
+l224:
   ; 1 ((uchar*)0xF000)
   lxi h, 61448
   mvi m, 128
@@ -1530,6 +1534,16 @@ memset_l2:
     pop b
   
   ret
+print2x_1:
+ .ds 2
+print2x_2:
+ .ds 2
+printx_1:
+ .ds 1
+printx_2:
+ .ds 1
+printx_3:
+ .ds 2
 test_1:
  .ds 1
 test_i:
@@ -11798,14 +11812,10 @@ giga:
  .db 0
  .db 255
 
-print_1:
+charAddr_1:
  .ds 1
-print_2:
+charAddr_2:
  .ds 1
-print_3:
- .ds 2
-print_dest:
- .ds 2
 apogeyScreen0_i:
  .ds 1
 apogeyScreen0b_i:

@@ -1,4 +1,4 @@
-#include <spec/fs.h>
+#include <fs/fs.h>
 
 const char* fs_cmdLine;
 const char* fs_selfName;

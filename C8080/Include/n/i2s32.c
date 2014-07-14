@@ -1,19 +1,20 @@
 #include <n.h>
+#include <32.h>
 #include <stdlib.h>
 
-void i2s32(char* buf, uint n, ulong* val, uchar spc) {
+void i2s32(char* buf, ulong* src, uint n, uchar spc) {
+  ulong v;
+  set32(&v, src);
+
   buf += n;  
   *buf = 0;
 
-  div32_l = ((ushort*)val)[0];
-  div32_h = ((ushort*)val)[1];
-
   while(1) {
-    div32(10);
+    div32_16(&v, 10);
     --buf;
     *buf = "0123456789ABCDEF"[op_div16_mod];
-    if(--n==0) return;
-    if(div32_l == 0 && div32_h == 0) break;
+    if(--n == 0) return;
+    if(((ushort*)&v)[0] == 0 && ((ushort*)&v)[1] == 0) break;
   }
 
   while(1) {

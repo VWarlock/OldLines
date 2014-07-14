@@ -1,4 +1,4 @@
-#include <spec/fs.h>
+#include <fs/fs.h>
 
 uchar fs_exec(const char* fileName, const char* cmdLine) {
   asm {    

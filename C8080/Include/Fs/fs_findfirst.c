@@ -1,4 +1,4 @@
-#include <spec/fs.h>
+#include <fs/fs.h>
 
 uchar fs_findfirst(const char* path, FileInfo* dest, uint size) {
   if(path[0] == '/') path++;

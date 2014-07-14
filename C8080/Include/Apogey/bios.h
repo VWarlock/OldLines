@@ -1,11 +1,18 @@
 // Коды клавиш
 
+#define KEY_F1    0
+#define KEY_F2    1
+#define KEY_F3    2
+#define KEY_F4    3
 #define KEY_LEFT  8
 #define KEY_TAB   9
+#define KEY_ENTER 13
+#define KEY_ESC   27
 #define KEY_RIGHT 0x18
 #define KEY_UP    0x19
 #define KEY_DOWN  0x1A
 #define KEY_SPACE 0x20
+#define KEY_BKSPC 0x7F
 
 // BIOS компьютера РК86
 
